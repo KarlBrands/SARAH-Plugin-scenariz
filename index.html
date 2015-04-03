@@ -1,0 +1,232 @@
+<div id="scenariz">
+  
+  <div class="row-fluid">
+     <div class="span8">
+          <p>
+          Permet de créer des scénarios multi-modules: <br>
+		   <ul>
+			   <li>A l'heure et aux jours de la semaine de votre choix.</li>
+			   <li>Nombre illimité d'actions.</li>
+			   <li>Modification vocale.</li>
+			   <li>Gère le multi-rooms.</li>
+			 </ul>
+		  <br>
+          </p>
+		   <p>
+           Développé pour Sarah V 3.1.6<br>
+		   Version 1.0 - 03/04/2015<br>
+		   Author: Stéphane Bascher<br>
+		   Extrait du plug-in SonosPlayer.
+		  </p>
+		  <br>
+			
+		  <h3>Création d'un scénario</h3> 
+		   La création d'un scénario se fait dans le fichier <code>scenariz.xml</code>.<br>
+		   Cahque action du scénario est une ligne a vocaliser.<br>
+		   Les clés d'une action:<br>
+		   <b>out.action.clients</b> : Définition des clients sarah qui exécutent le programme. Si il y a plusieurs clients, utilisez le caractère '|' pour les séparer. Non obligatoire ("SARAH1" par défaut).<br>
+		   <b>out.action.program</b> : Le nom du scénario. Toutes les actions du scénario doivent avoir le même nom de programme.  Non obligatoire ("Général"par défaut).<br>
+		   <b>out.action.name</b> : Le nom de l'action dans le programme. Toutes les actions du scénario doivent avoir un nom différent. Obligatoire.<br>
+		   <b>out.action.order</b> : Ordre de l'action si plusieurs actions sont à exécuter à la même heure.  Non obligatoire ("1" par défaut).<br>
+		   <b>out.action.tempo</b> : Temporisation après la prochaine action si plusieurs actions sont à exécuter à la même heure. En milli-secondes. Non obligatoire ("1000" par défaut).<br>
+		   <b>out.action.exec</b> :  L'action est à exécuter ('true') ou à ignorer ('false'). Non obligatoire ('true' par défaut).<br>
+		   <b>out.action.plug</b> :  Le nom exact du module à exécuter. Obligatoire.<br>
+		   <b>out.action.key</b> :  La commande et les clés du module. Non obligatoire (aucune par défaut).<br>
+		   Format: clés 1=valeur 1~clé 2=valeur 2~clé 3=valeur 3<br>
+		   Exemple pour le module météo (aucune commande, juste des clés pour la ville et la date):<br>
+		   out.action.key="zip=315550~date=0"<br>
+		   Exemple pour le module SonosPlayer pour démarrer une musique (clé "command" pour la commande dans le module, clé "type" pour le type de média et clé "title" pour le titre):<br>
+		   out.action.key="command=set_media~type=favorite~title=Mes Préférées"<br>
+		   <b>out.action.start</b> :  L'heure et les jours d'exécution de l'action. Obligatoire.<br>
+			Format: heure:minutes-7 chiffres 0 ou 1 représentant les 7 jours de la semaine commencant le lundi. 1: le jour est exécuté. 0 le jour est ignoré. <br>
+		    Exemple: 07:45-1111100  exécute l'action à 07h45 les 5 premiers jours de la semaine<br>
+		   <b>out.action.ttsCron</b> :  Un texte à vocaliser si besoin pour l'action. Non obligatoire (aucun par défaut).<br>
+			Le caractère spécial %s est automatiquement remplacé par le callback tts du module dans la phrase.<br>
+			Exemple avec le module météo qui retourne la météo dans un callback tts:<br>
+			out.action.ttsCron="La %s. Passe une bonne journée."<br>
+		   <h3>Exemple de création d'un scénario</h3> 
+		    Exemple d'un scénario de réveil en multi-rooms exécuté les jours ouvrés (lundi à vendredi).<br>
+			Les 3 premières actions sont exécutées à 07h45 dans l'ordre.
+			 <ul>
+			   <li>1: Une phrase de réveil.</li>
+			   <li>2: La météo.</li>
+			   <li>3: Démarre ma musique.</li>
+			   <li>4: Monte le son à 7h55.</li>
+			   <li>5: Une phrase de rappel à 08h10.</li>
+			   <li>6: Monte le son à 08h10.</li>
+			 </ul>
+			<br>
+			 <b>1: La phrase de réveil</b> : out.action.ttsCron="Bonjour Stéphane. Il est %s, il est l'heure de te réveiller."<br>
+			 scenariz à une commande "setTime" qui retourne l'heure dans un callback tts.<br>
+			 le %s est donc remplacé par l'heure si vous définissez out.action.plug="scenariz" et out.action.key="command=setTime"<br>		 
+<pre>
+&lsaquo;item&rsaquo;Début de l'heure du réveil&lsaquo;tag&rsaquo;out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="réveil à 7h 45 dans la chambre";out.action.order="1";out.action.tempo="6000";out.action.exec="true";out.action.plug="scenariz";out.action.start="07:45-1111100";out.action.ttsCron="Bonjour Stéphane. Il est %s, il est l'heure de te réveiller.";out.action.key="command=setTime"&lsaquo;/tag&rsaquo;&lsaquo;/item&rsaquo;
+</pre>	
+			Pour cette exemple, j'ai un multi-rooms. Le répertoire plugin de Sarah est un lien physique de mon serveur du Salon avec le répertoire plugin du client Sarah qui est dans la chambre (le répertoire est mis à jour automatiquement lors d'une modification).<br>	
+			Pour eviter d'avoir le réveil qui s'exécute dans les 2 pièces, je définis dans out.action.client le nom du client Sarah de la chambre qui est "CHAMBRE" où l'action sera exécutée.<br>		
+			vous pouvez voir aussi une tempo de 6 secondes pour l'action suivante, ce qui laisse le temps à Sarah de vocaliser la phrase avant de démarrer l'action 2 "météo".<br><br>	
+	
+			<b>2: La Météo</b><br>
+			Nom du plugin: meteo.<br>
+			2 clés "zip" et "date" sont à définir.<br>
+			Pour la qualité du message, j'encapsule le callback tts de la météo dans une phrase. Ce qui donnera:<br>	
+<pre>
+&lsaquo;item&rsaquo;Ajoute la météo au réveil&lsaquo;tag&rsaquo;out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Météo à 7h 45 dans la chambre";out.action.tempo="25000";out.action.exec="true";out.action.order="2";out.action.plug="meteo";out.action.start="07:45-1111100";out.action.ttsCron="La %s. Passe une bonne journée.";out.action.key="zip=315550~date=0"&lsaquo;/tag&rsaquo;&lsaquo;/item&rsaquo;
+</pre>			
+			Vous pouvez voir une temporisation de 25 secondes ainsi que la clé out.action.order qui passe à "2".<br><br>
+			
+			<b>3: Démarre ma musique</b><br>
+			Pour l'exemple, j'utilise mon plug-in SonosPlayer mais tout autre plug-in est bien sûr possible.<br>
+			Nom du plugin: SonosPlayer.<br>
+			3 clés ""command", "type" et "title" sont à définir.<br>
+			Pas de message vocalisé.<br>
+<pre>
+&lsaquo;item&rsaquo;musique du réveil&lsaquo;tag&rsaquo;out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="musique à 7h 45 dans la chambre";out.action.order="3";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:45-1111100";out.action.key="command=set_media~type=favorite~title=Mes Préférées"&lsaquo;/tag&rsaquo;&lsaquo;/item&rsaquo;			
+</pre>			
+			Vous pouvez voir l'ordre qui passe à "3" et qu'il n'y a pas de tempo. Le prochain ordre est à 07h55.<br><br>
+			
+			<b>4: Monte le son à 7h55.</b><br>
+			Juste pour me rappeler de ne pas me rendormir.<br>
+<pre>
+&lsaquo;item&rsaquo;augmente un peu le son a 7h55&lsaquo;tag&rsaquo;out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="augmente un peu le son pour le reveil à 7h55 dans la chambre";out.action.order="1";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="08:00-1111100";out.action.key="command=volume~setTo=10"&lsaquo;/tag&rsaquo;&lsaquo;/item&rsaquo;
+</pre>		
+			L'order repasse à "1"<br><br>
+			<b>5: Une phrase de rappel à 08h10.</b><br>
+<pre>
+&lsaquo;item&rsaquo;Premier Rappel de réveil&lsaquo;tag&rsaquo;out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Rappel à 8h 10 dans la chambre";out.action.order="1";out.action.exec="true";out.action.plug="scenariz";out.action.start="08:10-1111100";out.action.ttsCron="Stéphane. Il est %s, il faut vraiment que tu te lèves.";out.action.key="command=setTime"&lsaquo;/tag&rsaquo;&lsaquo;/item&rsaquo;
+</pre>				
+			<b>6: Monte le son à 08h10.</b><br>
+			Le son de la musique monte en même temps que la phrase de rappel.
+<pre>
+&lsaquo;item&rsaquo;augmente beaucoup le son a 08h10&lsaquo;tag&rsaquo;out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="augmente beaucoup le son pour le reveil à 8h 10 dans la chambre";out.action.order="2";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="08:10-1111100";out.action.key="command=volume~setTo=30"&lsaquo;/tag&rsaquo;&lsaquo;/item&rsaquo;
+</pre>				
+		 Puisque exécuté à la même heure que la phrase de rappel, l'ordre est "2".<br><br>
+
+		Voilà pour l'exemple. J'ai considérablement simplifié mon programme de réveil personnel.<br>
+		Pour ma part, j'ouvre les volets, puis j'arrete la musique, un peu plus tard j'allume la télé...<br>
+		Tout est possible. <br>
+		Un scénario peut être créé pour autre chose que le réveil.<br>
+		
+	 <h3>Modification d'un scénario</h3> 	
+	La modification d'un scénario peut être effectuée de 2 façons:
+	 <ul>
+	   <li>1: Soit en modifiant l'action dans le fichier <code>scenariz.xml</code> et en la rééxécutant.</li>
+	   <li>2: Soit en utilisant l'ordre "Modification des Programmes"</li>
+	 </ul>
+	<br>
+		
+		<b>1: Modifier l'action dans le fichier <code>scenariz.xml</code></b><br>
+		Il suffit juste de modifier les clés que vous voulez et de rééxécuter l'ordre vocale, par exemple, si vous voulez modifier l'heure, ou une phrase, le plugin, une clé...<br>
+		2 clés ne sont <b>JAMAIS</b> à modifier:<br>
+		<ul>
+			<li>Le nom de l'action (la clé out.action.name)</li>
+			<li>Le programme (la clé out.action.program)</li>
+		 </ul>
+		 sinon cela sera vu comme une nouvelle action.<br><br>
+		<b>2: L'ordre "Modification des Programmes"</b><br> 
+		Sarah récupère la liste des scénarios et vous propose de les modifier.<br> 
+		Vous pouvez répondre:<br> 
+		<ul>
+			<li>Qu'est ce que je peux dire</li>
+			-> Rappel des actions possibles (ci-dessous)
+			<li>Oui modifie</li>
+			-> Pour modifier le scénario
+			<li>Suivant</li>
+			-> Pour passer au suivant, si il en existe
+			<li>Inverse le sens</li>
+			-> Pour revenir en arrière ou en avant dans la liste des scénarios, si il en existe
+			<li>Quel est le sens</li>
+			-> Pour connaitre le sens, en arrière ou en avant dans la liste
+			<li>terminé</li>
+			-> Pour terminé
+		 </ul>
+		
+		<b>Modification</b><br> 
+		Vous pouvez répondre:<br> 
+		<ul>
+			<li>Qu'est ce que je peux dire</li>
+			-> Rappel des actions possibles (ci-dessous)
+			<li>L'état</li>
+			-> Pour afficher l'état du scénario
+			<li>Activer</li>
+			-> passe la clé out.action.exec à 'true' pour toutes les actions du scénario et le réactive.
+			<li>Désactiver</li>
+			-> passe la clé out.action.exec à 'false' pour toutes les actions du scénario et le désactive.
+			<li>supprime le programme</li>
+			-> Supprime le scénario et toutes ses actions.
+			<li>Les minutes</li>
+			-> Pour modifier les minutes de début du scénario. La première action du premier ordre est utilisée mais toutes les minutes de toutes les actions sont modifiées relativement.
+			<li>L'heure</li>
+			-> Pour modifier l'heure de début du scénario. La première action du premier ordre est utilisée mais toutes les heures de toutes les actions sont modifiées relativement.
+			<li>les jours</li>
+			-> Pour modifier les jours du scénario. Toutes les actions sont modifiées.
+			<li>Terminé</li>
+			-> Pour sauvegarder les modifications.
+			<li>Annuler</li>
+			-> Pour quitter sans sauvegarder les modifications.
+		 </ul>
+		
+		<b>Les minutes et Heures</b><br> 
+		Identique dans les ordres pour les minutes et les heures.<br> 
+		Vous pouvez répondre:<br> 
+		<ul>
+			<li>Qu'est ce que je peux dire</li>
+			-> Rappel des actions possibles (ci-dessous)
+			<li>Baisse</li>
+			-> Pour réduire de 5 minutes ou 1 heure
+			<li>Baisse beaucoup</li>
+			-> Pour réduire de 15 minutes ou 5 heures
+			<li>Augmente</li>
+			-> Pour augmenter de 5 minutes ou 1 heure
+			<li>Augmente beaucoup</li>
+			-> Pour augmenter de 15 minutes ou 5 heures
+			<li>Terminé</li>
+			-> Pour sauvegarder les modifications.
+			<li>Annuler</li>
+			-> Pour quitter sans sauvegarder les modifications.
+		 </ul>
+		 
+		<b>Les jours</b><br> 
+		Vous pouvez répondre:<br> 
+		<ul>
+			<li>Qu'est ce que je peux dire</li>
+			-> Rappel des actions possibles (ci-dessous)
+			<li>Activer</li>
+			-> Pour activer les jours (la phrase de Sarah vous montre si elle active ou désactive)
+			<li>Désactiver</li>
+			-> Pour désactiver les jours (la phrase de Sarah vous montre si elle active ou désactive)
+			<li>Semaine de travail</li>
+			-> Pour définir du lundi au vendredi
+			<li>Toute la semaine</li>
+			-> Pour définir toute la semaine
+			<li>Lundi</li>
+			-> Pour activer/désactiver le Lundi
+			<li>Mardi</li>
+			-> Pour activer/désactiver le Mardi
+			<li>Mercredi</li>
+			-> Même chose pour tous les jours jusqu'au Dimanche
+			<li>Terminé</li>
+			-> Pour sauvegarder les modifications.
+			<li>Annuler</li>
+			-> Pour quitter sans sauvegarder les modifications.
+		 </ul>
+		
+		 <h3>Configuration</h3> 	
+		Le Cron s'active toutes les 5 minutes.<br> 
+		Si une heure est définie en non multiple de 5 minutes, le module activera automatiquement l'action pour le multiple inférieur.<br> 
+		<br> 
+		Le module utilise une base nedb localisée dans le répertoire lib/db et nommée Sonosdb.<br> 
+		(comme dit plus haut, ce plugin est extrait de mon plugin SonosPlayer, d'ou le nom).<br> 
+		Cette base est un simple fichier texte que vous pouvez modifier dans un éditeur de texte.<br> 
+		Supprimer une action, la modifier... respectez juste la syntaxe.<br> 
+		Vous pouvez aussi supprimer le fichier. Il sera automatiquement recrée lorsque vous vocaliserez de nouveau les ordres.<br> <br> 
+		
+		Il existe un mode debug que vous pouvez activer en modifiant la valeur "debug" du fichier prop à "true".<br> 
+		Ce module est multi-langages, pour modifier la langue, changer la valeur "language" du fichier prop avec le nom d'un fichier lang du répertoire lib/lang (le nom du fichier est la valeur à positionner).<br> 
+		Pour en créer un, copier le fichier FR_fr.js et nommer-le par exemple EN_en.js et modifier toutes les valeurs textes.<br> 
+		Tous les messages sont personnalisables. Ouvrez le fichier et modifier les valeurs textes.<br> <br> 
+	</div>
+     
+  </div> 
+  
+</div>

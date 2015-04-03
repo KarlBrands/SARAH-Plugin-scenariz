@@ -1,0 +1,24 @@
+<grammar version="1.0" xml:lang="fr-FR" mode="voice"  root="rulescenariz" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+
+  <rule id="rulescenariz">
+    <tag>out.action=new Object(); </tag>
+    <item>Sarah</item>
+    
+    <one-of>
+		<!-- modfication, cron has to exist-->		
+		<item>Modification des programmes<tag>out.action.command="ManageCron"</tag></item>
+			
+		<!-- Example of a scenario. See the documentation about explanation	
+		<item>Début de l'heure du réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="réveil à 7h 45 dans la chambre";out.action.order="1";out.action.tempo="6000";out.action.exec="true";out.action.plug="scenariz";out.action.start="07:45-1111100";out.action.ttsCron="Bonjour Stéphane. Il est %s, il est l'heure de te réveiller.";out.action.key="command=setTime"</tag></item>
+		<item>Ajoute la météo au réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Météo à 7h 45 dans la chambre";out.action.tempo="25000";out.action.exec="true";out.action.order="2";out.action.plug="meteo";out.action.start="07:45-1111100";out.action.ttsCron="La %s. Passe une bonne journée.";out.action.key="zip=315550~date=0"</tag></item>
+		<item>musique du réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="musique à 7h 45 dans la chambre";out.action.order="3";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:45-1111100";out.action.key="command=set_media~type=favorite~title=Mes Préférées"</tag></item>
+		<item>augmente un peu le son a 7h55<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="augmente un peu le son pour le reveil à 7h55 dans la chambre";out.action.order="1";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="08:00-1111100";out.action.key="command=volume~setTo=10"</tag></item>
+		<item>Premier Rappel de réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Rappel à 8h 10 dans la chambre";out.action.order="1";out.action.exec="true";out.action.plug="scenariz";out.action.start="08:10-1111100";out.action.ttsCron="Stéphane. Il est %s, il faut vraiment que tu te lèves.";out.action.key="command=setTime"</tag></item>
+		<item>augmente beaucoup le son a 08h10<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="augmente beaucoup le son pour le reveil à 8h 10 dans la chambre";out.action.order="2";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="08:10-1111100";out.action.key="command=volume~setTo=30"</tag></item>
+		-->	
+		
+	</one-of>
+	
+    <tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/scenariz"</tag>
+  </rule>
+</grammar>

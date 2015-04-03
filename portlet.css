@@ -1,0 +1,12 @@
+
+.plugin-gridster.scenariz .front {
+  background: #FFFFFF url('images/scenariz.jpg') center 30px;
+  background-size:   180px 100px;
+  background-repeat: no-repeat;
+}
+
+
+.plugin-gridster.scenariz .back {
+  background: #FFFFFF;
+}
+
