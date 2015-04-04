@@ -102,10 +102,9 @@
 </pre>				
 		 Puisque exécuté à la même heure que la phrase de rappel, l'ordre est "2".<br><br>
 
-		Voilà pour l'exemple. J'ai considérablement simplifié mon programme de réveil personnel.<br>
-		Pour ma part, j'ouvre les volets, puis j'arrete la musique, un peu plus tard j'allume la télé...<br>
+		Pour l'exemple, j'ai considérablement simplifié mon programme de réveil personnel.<br>
 		Tout est possible. <br>
-		Un scénario peut être créé pour autre chose que le réveil.<br>
+		Un scénario peut être créé pour toutes les tâches que vous désirez.<br>
 		
 	 <h3>Modification d'un scénario</h3> 	
 	La modification d'un scénario peut être effectuée de 2 façons:
@@ -117,7 +116,7 @@
 		
 		<b>1: Modifier l'action dans le fichier <code>scenariz.xml</code></b><br>
 		Il suffit juste de modifier les clés que vous voulez et de rééxécuter l'ordre vocale, par exemple, si vous voulez modifier l'heure, ou une phrase, le plugin, une clé...<br>
-		2 clés ne sont <b>JAMAIS</b> à modifier:<br>
+		2 clés qui représentent "la clé unique" de l'action ne doivent <b>JAMAIS</b> être modifiées:<br>
 		<ul>
 			<li>Le nom de l'action (la clé out.action.name)</li>
 			<li>Le programme (la clé out.action.program)</li>
@@ -210,15 +209,21 @@
 			<li>Annuler</li>
 			-> Pour quitter sans sauvegarder les modifications.
 		 </ul>
+		 
+		  <h3>Tests</h3> 
+		  la création d'un scénario necessite des tests.<br> 
+		  Pour effectuer des tests, une bonne pratique consiste à ouvrir le fichier lib/db/Sonosdb.db dans un éditeur de texte et de modifier l'heure d'exécution.<br> 
+		  Ajouter 5 minutes à l'heure courante pour toutes les tâches concernées afin que le scénario s'exécute, sauvegardez le fichier et attendez son exécution.<br> 
+		  Une fois la validation du scénario effectuée, modifiez l'heure pour l'heure désirée.<br> 
 		
 		 <h3>Configuration</h3> 	
 		Le Cron s'active toutes les 5 minutes.<br> 
 		Si une heure est définie en non multiple de 5 minutes, le module activera automatiquement l'action pour le multiple inférieur.<br> 
 		<br> 
-		Le module utilise une base nedb localisée dans le répertoire lib/db et nommée Sonosdb.<br> 
+		Le module utilise une base nedb localisée dans le répertoire lib/db et nommée Sonosdb.db.<br> 
 		(comme dit plus haut, ce plugin est extrait de mon plugin SonosPlayer, d'ou le nom).<br> 
 		Cette base est un simple fichier texte que vous pouvez modifier dans un éditeur de texte.<br> 
-		Supprimer une action, la modifier... respectez juste la syntaxe.<br> 
+		Par exemple, pour supprimer une action, changer une heure... respectez juste la syntaxe.<br> 
 		Vous pouvez aussi supprimer le fichier. Il sera automatiquement recrée lorsque vous vocaliserez de nouveau les ordres.<br> <br> 
 		
 		Il existe un mode debug que vous pouvez activer en modifiant la valeur "debug" du fichier prop à "true".<br> 
