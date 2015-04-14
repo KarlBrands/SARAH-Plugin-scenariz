@@ -24,12 +24,12 @@ exports.init = function(sarah){
 }
 
 
-// Cron Sonos
+// Cron
 exports.cron = function(callback, task){
 
 	// It's time to check if some things are to do
 	if (SarahClient) {
-		var remember = require('./lib/db/Sonosdb')({
+		var remember = require('./lib/db/scenarizdb')({
 			sarah: SARAH,
 			lang: lang,
 			sarahClient: SarahClient,
@@ -140,14 +140,14 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
     if (debug == 'true') console.log("hour: " + hour + " days: " + days);	
 	
 	if (SarahClient) {
-		var remember = require('./lib/db/Sonosdb')({
+		var remember = require('./lib/db/scenarizdb')({
 				sarah: SARAH,
 				lang: lang,
 				sarahClient: SarahClient,
 				debug: debug});
 		remember.save(program,plugin,name,order,tempo,exec,key,tts,hour,days,Clients);
 	} else 
-		console.log('Sonos Cron Error: Unable to retrieve the client name from ini');
+		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
 	
 }
 
@@ -155,14 +155,14 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 var manage_cron = function () {
 	
 	if (SarahClient) {
-		var remember = require('./lib/db/Sonosdb')({
+		var remember = require('./lib/db/scenarizdb')({
 				sarah: SARAH,
 				lang: lang,
 				sarahClient: SarahClient,
 				debug: debug});
 		remember.manage();
 	} else 
-		console.log('Sonos Cron Error: Unable to retrieve the client name from ini');
+		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
 	
 }
 

@@ -1,16 +1,16 @@
 {
   "modules" : { 
     "scenariz" : {
-      "description": "Make Scenarios for Sarah",
+      "description": "Making Scenarios for Sarah",
       "version": "1.0",
-	  "debug": "false",
+	  "debug": "true",
 	  "language": "FR_fr"
     }
   },
   "cron" : {
-    "senariz" :   { 
+    "scenariz" :   { 
 	  "name"       : "scenariz",
-      "description": "Cron scenariz",
+      "description": "scenariz Cron",
 	  "version": "1.0",
       "time"       : "0 */5 * * * *"
     }
