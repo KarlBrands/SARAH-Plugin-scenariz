@@ -1,9 +1,9 @@
 {
   "modules" : { 
     "scenariz" : {
-      "description": "Making Scenarios for Sarah",
-      "version": "1.0",
-	  "debug": "true",
+      "description": "Make scenarios for Sarah",
+      "version": "2.0",
+	  "debug": "false",
 	  "language": "FR_fr"
     }
   },
@@ -11,7 +11,7 @@
     "scenariz" :   { 
 	  "name"       : "scenariz",
       "description": "scenariz Cron",
-	  "version": "1.0",
+	  "version": "2.0",
       "time"       : "0 */5 * * * *"
     }
   }

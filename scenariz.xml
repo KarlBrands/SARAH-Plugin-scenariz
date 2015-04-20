@@ -5,10 +5,17 @@
     <item>Sarah</item>
     
     <one-of>
-		<!-- modfication, cron has to exist-->		
-		<item>Modification des programmes<tag>out.action.command="ManageCron"</tag></item>
-			
-		<!-- Example of a scenario. See the documentation about explanation	
+		<!-- Voice modfication of programs, have to exist-->		
+		<item>gestion des programmes<tag>out.action.command="ManageCron"</tag></item>
+		
+		<!-- Immediat execution -->
+		<!-- Demonstration -->
+		<item>fais nous une petite démo<tag>out.action.command="ExecCron";out.action.program="Démo"</tag></item>
+		<!-- When i go to my fucking work -->
+		<item>Je m'en vais<tag>out.action.command="ExecCron";out.action.program="Fermeture maison"</tag></item>
+		<item>Je part travailler<tag>out.action.command="ExecCron";out.action.program="Fermeture maison"</tag></item>
+		
+		<!-- First example of a scenario. Small Wakeup program - See the documentation about explanation	
 		<item>Début de l'heure du réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="réveil à 7h 45 dans la chambre";out.action.order="1";out.action.tempo="6000";out.action.exec="true";out.action.plug="scenariz";out.action.start="07:45-1111100";out.action.ttsCron="Bonjour Stéphane. Il est %s, il est l'heure de te réveiller.";out.action.key="command=setTime"</tag></item>
 		<item>Ajoute la météo au réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Météo à 7h 45 dans la chambre";out.action.tempo="25000";out.action.exec="true";out.action.order="2";out.action.plug="meteo";out.action.start="07:45-1111100";out.action.ttsCron="La %s. Passe une bonne journée.";out.action.key="zip=315550~date=0"</tag></item>
 		<item>musique du réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="musique à 7h 45 dans la chambre";out.action.order="3";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:45-1111100";out.action.key="command=set_media~type=favorite~title=Mes Préférées"</tag></item>
@@ -17,7 +24,81 @@
 		<item>augmente beaucoup le son a 08h10<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="augmente beaucoup le son pour le reveil à 8h 10 dans la chambre";out.action.order="2";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="08:10-1111100";out.action.key="command=volume~setTo=30"</tag></item>
 		-->	
 		
+		<!-- Next example: another Wakeup program more complicated
+		<item>Début de l'heure du réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="réveil à 7h 30 dans la chambre";out.action.order="1";out.action.tempo="6000";out.action.exec="true";out.action.plug="scenariz";out.action.start="07:30-1111100";out.action.ttsCron="Bonjour Stéphane. Il est %s, il est l'heure de te réveiller.";out.action.key="command=setTime"</tag></item>
+		<item>Ajoute la météo au réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Météo à 7h 30 dans la chambre";out.action.tempo="25000";out.action.exec="true";out.action.order="2";out.action.plug="meteo";out.action.start="07:30-1111100";out.action.ttsCron="La %s. Passe une bonne journée.";out.action.key="zip=315550~date=0"</tag></item>
+		<item>pour la Chambre<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Activation Chambre à 7h 30";out.action.order="3";out.action.tempo="500";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:30-1111100";out.action.key="command=setRoom~room=Chambre"</tag></item>	
+		<item>Son pour le réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Son pour le reveil à 7h 30 dans la chambre";out.action.order="4";out.action.tempo="1000";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:30-1111100";out.action.key="command=volume~setTo=5"</tag></item>
+		<item>musique du réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="musique à 7h 30 dans la chambre";out.action.order="5";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:30-1111100";out.action.key="command=set_media~type=favorite~title=Mes Préférées"</tag></item>
+		<item>augmente un peu le son<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="augmente un peu le son pour le reveil à 7h 45 dans la chambre";out.action.order="1";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:45-1111100";out.action.key="command=volume~setTo=10"</tag></item>
+		<item>augmente le son ensuite<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="augmente le son à 7h 50 dans la chambre";out.action.order="1";out.action.tempo="1000";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:50-1111100";out.action.key="command=volume~setTo=15"</tag></item>
+		<item>Suis moi dans le Salon<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Activation du suivi à 7h 50 dans la chambre";out.action.order="2";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:50-1111100";out.action.key="command=followme~followme=On"</tag></item>
+		<item>Premier Rappel de réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Rappel à 7h 55 dans la chambre";out.action.order="1";out.action.exec="true";out.action.plug="scenariz";out.action.start="07:55-1111100";out.action.ttsCron="Stéphane. Il est %s, il faut que tu te lèves.";out.action.key="command=setTime"</tag></item>
+		<item>musique en pause pour la télé<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="musique en pause à 8h";out.action.order="1";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="08:00-1111100";out.action.key="command=pause"</tag></item>
+		<item>télé après la musique<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Allume la télé à 8h";out.action.order="2";out.action.tempo="20000";out.action.exec="true";out.action.plug="freebox";out.action.start="08:00-1111100";out.action.key="key=tvOn"</tag></item>
+		<item>télé sur National géographique<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Télé sur national géographique";out.action.order="3";out.action.exec="true";out.action.plug="freebox";out.action.start="08:00-1111100";out.action.key="key=57"</tag></item>
+		<item>Désactive le suivi pour le réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Désactive le suivi";out.action.order="1";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="09:00-1111100";out.action.key="command=followme~followme=Off"</tag></item>
+		-->
+		
+		<!--  Next example: Small Démo scenario
+		<item>Allume la cuisine pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo allume la cuisine";out.action.order="1";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.ttsCron="je peux allumer la cuisine.";out.action.key="command=set~value=100~periph=lightDimmer~room=Cuisine"</tag></item>
+		<item>Eteint la cuisine pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo eteint la cuisine";out.action.order="2";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.ttsCron="je peux éteintre la cuisine.";out.action.key="command=set~value=0~periph=lightDimmer~room=Cuisine"</tag></item>
+		<item>Allume le salon pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo allume le salon";out.action.order="3";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.ttsCron="je peux allumer le salon.";out.action.key="command=set~value=100~periph=lightDimmer~room=Salon"</tag></item>
+		<item>Change la couleur du salon en vert pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo change la couleur du salon en vert";out.action.order="4";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.ttsCron="je peux changer la couleur.";out.action.key="command=set~value=60,100,0,0~periph=lightColor~room=Salon"</tag></item>
+		<item>Change la couleur du salon en rouge pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo change la couleur du salon en rouge";out.action.order="5";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.key="command=set~value=100,0,0,0~periph=lightColor~room=Salon"</tag></item>
+		<item>Change la couleur du salon en jaune pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo change la couleur du salon en jaune";out.action.order="6";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.key="command=set~value=100,100,0,0~periph=lightColor~room=Salon"</tag></item>
+		<item>Change la couleur du salon en bleu pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo change la couleur du salon en bleu";out.action.order="7";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.key="command=set~value=0,0,100,0~periph=lightColor~room=Salon"</tag></item>
+		<item>Change la couleur du salon en blanc pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo change la couleur du salon en blanc";out.action.order="8";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.key="command=set~value=0,0,0,100~periph=lightColor~room=Salon"</tag></item>
+		<item>musique pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo musique";out.action.order="9";out.action.tempo="25000";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:30-1111111";out.action.ttsCron="je peux mettre un peu de musique.";out.action.key="command=set_media~type=favorite~title=Mes Préférées~room=Salon"</tag></item>
+		<item>Arreter la musique pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo arret musique";out.action.order="10";out.action.tempo="2000";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:30-1111111";out.action.key="command=pause~room=Salon"</tag></item>
+		<item>télé pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo télé";out.action.order="11";out.action.tempo="20000";out.action.exec="true";out.action.plug="freebox";out.action.start="07:30-1111111";out.action.ttsCron="je peux allumer la télé.";out.action.key="key=tvOn"</tag></item>
+		<item>chaine national géo pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo changer de chaine Nath géo";out.action.order="12";out.action.tempo="10000";out.action.exec="true";out.action.plug="freebox";out.action.start="07:30-1111111";out.action.ttsCron="je peux changer de chaine.";out.action.key="key=57"</tag></item>
+		<item>chaine énergie pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo changer de chaine NRJ12";out.action.order="13";out.action.tempo="10000";out.action.exec="true";out.action.plug="freebox";out.action.start="07:30-1111111";out.action.key="key=12"</tag></item>
+		<item>arreter la télé pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo arret télé";out.action.order="14";out.action.tempo="2000";out.action.exec="true";out.action.plug="freebox";out.action.start="07:30-1111111";out.action.key="key=off"</tag></item>
+		<item>météo pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo météo";out.action.order="15";out.action.exec="true";out.action.plug="meteo";out.action.start="07:30-1111111";out.action.ttsCron="Je peux te donner la %s.";out.action.key="zip=315550~date=0"</tag></item>
+		<item>température dans le salon pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo température salon";out.action.order="16";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.ttsCron="Je peux te donner la température dans le salon.";out.action.key="command=whatTemp~periph=TempSensor~room=Salon"</tag></item>
+		<item>température dans la chambre pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo température chambre";out.action.order="17";out.action.tempo="4000";out.action.exec="true";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.ttsCron="ou dans la chambre.";out.action.key="command=whatTemp~periph=TempSensor~room=Chambre"</tag></item>
+		<item>phrase de fin pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo phrase de fin";out.action.order="18";out.action.exec="true";out.action.plug="scenariz";out.action.start="07:30-1111111";out.action.key="command=speech~text=je peux faire pleins d'autres choses, c'est juste une petite démo."</tag></item>
+		-->	
+		
+		<!--  Next example: close everything and activate the alarm when i leave home
+		<item>éteindre la musique dans le salon pour partir<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Fermeture maison";out.action.name="partir et éteindre la musique du salon";out.action.order="2";out.action.tempo="2000";out.action.exec="false";out.action.plug="SonosPlayer";out.action.start="07:30-1111111";out.action.key="command=pause~room=Salon"</tag></item>
+		<item>éteindre la musique dans la chambre pour partir<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Fermeture maison";out.action.name="partir et éteindre la musique de la chambre";out.action.order="3";out.action.tempo="2000";out.action.exec="false";out.action.plug="SonosPlayer";out.action.start="07:30-1111111";out.action.key="command=pause~room=Chambre"</tag></item>
+		<item>éteindre la lumière du salon pour partir<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Fermeture maison";out.action.name="partir et éteindre la lumière du salon";out.action.order="4";out.action.tempo="2000";out.action.exec="false";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.key="command=set~value=0~periph=lightDimmer~room=Salon"</tag></item>
+		<item>activer la surveillance pour partir<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Fermeture maison";out.action.name="partir et activer la surveillance";out.action.order="5";out.action.exec="false";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.key="command=lookOut"</tag></item>
+		-->
+		
 	</one-of>
+	
+	<item repeat="0-1">
+		<one-of>
+			<item>ferme</item>
+			<item>verouille</item>
+		</one-of>
+	</item>
+	
+	<item repeat="0-1">
+		<one-of>
+			<item>tout</item>
+		</one-of>
+	</item>
+	
+	<item repeat="0-1">
+		<one-of>
+			<!-- timeout in minutes -->
+			<item>dans cinq minutes<tag>out.action.timeout="5";out.action._attributes.tts="D'accord, je ferme tout dans 5 minutes. Bonne journée stèph"</tag></item>
+			<item>dans dix minutes<tag>out.action.timeout="10";out.action._attributes.tts="D'accord, je ferme tout dans 10 minutes. Bonne journée stèph"</tag></item>
+			<item>dans quinze minutes<tag>out.action.timeout="15";out.action._attributes.tts="D'accord, je ferme tout dans 15 minutes. Bonne journée stèph"</tag></item>
+			<item>dans vingt minutes<tag>out.action.timeout="20";out.action._attributes.tts="D'accord, je ferme tout dans 20 minutes. Bonne journée stèph"</tag></item>
+			<item>dans vingt cinq minutes<tag>out.action.timeout="25";out.action._attributes.tts="D'accord, je ferme tout dans 25 minutes. Bonne journée stèph"</tag></item>
+			<item>dans trente minutes<tag>out.action.timeout="30";out.action._attributes.tts="D'accord, je ferme tout dans 30 minutes. Bonne journée stèph"</tag></item>
+			<item>dans quarante minutes<tag>out.action.timeout="40";out.action._attributes.tts="D'accord, je ferme tout dans 40 minutes. Bonne journée stèph"</tag></item>
+			<item>dans cinquante minutes<tag>out.action.timeout="50";out.action._attributes.tts="D'accord, je ferme tout dans 50 minutes. Bonne journée stèph"</tag></item>
+			<item>dans une heure<tag>out.action.timeout="60";out.action._attributes.tts="D'accord, je ferme tout dans 1 heure. Bonne journée stèph"</tag></item>
+			<item>dans une heure trente<tag>out.action.timeout="90";out.action._attributes.tts="D'accord, je ferme tout dans 1 heure et demi. Bonne journée stèph"</tag></item>
+			<item>dans deux heures<tag>out.action.timeout="120";out.action._attributes.tts="D'accord, je ferme tout dans 2 heures. Bonne journée stèph"</tag></item>
+		</one-of>
+	</item>
 	
     <tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/scenariz"</tag>
   </rule>

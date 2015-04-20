@@ -2,9 +2,10 @@
 	Author: Stéphane Bascher
 	Make Scenarios for Sarah
 	
-	Date: 
-	Version: 1.0: 
-	Creation of the module
+	Date: April-04-2015
+	Version: 1.0: Creation of the module
+	Version: 2.0: Adding immediate/time-out execution... wow !!
+				  speech action, to have the possibility to vocalize a simple tts in a scenario.
 */
 
 
@@ -20,7 +21,7 @@ var SARAH
 // Init Sarah	 
 exports.init = function(sarah){
   SARAH = sarah;
-  initSonos(SARAH);
+  initScenariz(SARAH);
 }
 
 
@@ -44,7 +45,7 @@ exports.cron = function(callback, task){
 
 
 // Init Senariz	
-var initSonos = function(SARAH, callback) {
+var initScenariz = function(SARAH, callback) {
 	
 	// Search client name
 	path = require('path'); 
@@ -56,8 +57,8 @@ var initSonos = function(SARAH, callback) {
 		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
 	
 	var config = SARAH.ConfigManager.getConfig();
-	debug  = config.modules.SonosPlayer['debug'] || 'false';
-	lang = config.modules.SonosPlayer['language'] || 'FR_fr';
+	debug  = config.modules.scenariz['debug'] || 'false';
+	lang = config.modules.scenariz['language'] || 'FR_fr';
 	
 	// callback if required
 	if (callback) callback();
@@ -72,24 +73,28 @@ exports.action = function(data, callback, config, SARAH){
 		return callback({});
 	
 	// table of properties
-	var _SonosConf = {
-		language: config.modules.SonosPlayer['language'] || 'FR_fr',
-		debug: config.modules.SonosPlayer['debug'] || 'false'
+	var _ScenarizConf = {
+		language: config.modules.scenariz['language'] || 'FR_fr',
+		debug: config.modules.scenariz['debug'] || 'false'
 	};
 	
 	// localized messages
-	lang = _SonosConf.language; // Added for cron...
-	msg = require('./lib/lang/' + _SonosConf.language);
+	lang = _ScenarizConf.language; // Added for cron...
+	msg = require('./lib/lang/' + _ScenarizConf.language);
 	// mode debug
-	debug = _SonosConf.debug;
+	debug = _ScenarizConf.debug;
 	if (debug == 'true') console.log(msg.localized('debug'));
 	
 	// table of actions
 	var tblActions = {
 		// set Time, specific for Cron
 		setTime: function() {setTime(callback);return},
-		// Save Programme
-		ScenarizCron: function() {set_cron(data.program,data.name,data.exec,data.order,data.tempo,data.plug, data.start, data.key, data.ttsCron,_SonosConf.language, data.clients)},
+		// Speech, specific for Cron
+		speech: function() {callback({'tts': data.text});return},
+		// Save Program
+		ScenarizCron: function() {set_cron(data.program,data.name,data.exec,data.order,data.tempo,data.plug, data.start, data.key, data.ttsCron,_ScenarizConf.language, data.clients)},
+		// Exec Program, Immediate execution, no at specific date
+		ExecCron: function() {exec_cron(data.program,((data.timeout)?parseInt(data.timeout):0))},
 		// Manage cron
 		ManageCron: function() {manage_cron()}
 	};
@@ -149,6 +154,21 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 	} else 
 		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
 	
+}
+
+
+var exec_cron = function (program,timeout) {
+
+	if (SarahClient) {
+		var remember = require('./lib/db/scenarizdb')({
+				sarah: SARAH,
+				lang: lang,
+				sarahClient: SarahClient,
+				debug: debug});
+		remember.exec(program,timeout);
+	} else 
+		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
+
 }
 
 
