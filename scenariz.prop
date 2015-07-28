@@ -3,7 +3,9 @@
     "scenariz" : {
       "description": "Make scenarios for Sarah",
       "version": "2.0",
-	  "debug": "false",
+	  "multiRoom": "true",
+	  "defaultRoom": "",
+	  "debug": "true",
 	  "language": "FR_fr"
     }
   },
@@ -12,7 +14,7 @@
 	  "name"       : "scenariz",
       "description": "scenariz Cron",
 	  "version": "2.0",
-      "time"       : "0 */5 * * * *"
+      "time"       : "*/5 * * * *"
     }
   }
 }

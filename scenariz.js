@@ -47,16 +47,20 @@ exports.cron = function(callback, task){
 // Init Senariz	
 var initScenariz = function(SARAH, callback) {
 	
-	// Search client name
-	path = require('path'); 
-	var inifile = path.resolve('%CD%', './custom.ini').replace('\\%CD%', '');
-	SarahClient = ini.parse(fs.readFileSync(inifile, 'utf-8')).common.client;
-	if (SarahClient) {
-		if (debug == 'true') console.log("Scenariz Cron client: " + SarahClient);
-	} else 
-		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
-	
 	var config = SARAH.ConfigManager.getConfig();
+	var multiRoom = config.modules.scenariz['multiRoom'] || 'false';
+	if (multiRoom.toLowerCase() == 'true') {
+		// Search client name
+		path = require('path'); 
+		var inifile = path.resolve('%CD%', './custom.ini').replace('\\%CD%', '');
+		SarahClient = ini.parse(fs.readFileSync(inifile, 'utf-8')).common.client;
+		if (SarahClient) {
+			if (debug == 'true') console.log("Scenariz Cron client: " + SarahClient);
+		} else 
+			console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
+	} else 
+		SarahClient = config.modules.scenariz['defaultRoom'] || 'SARAH1';
+	
 	debug  = config.modules.scenariz['debug'] || 'false';
 	lang = config.modules.scenariz['language'] || 'FR_fr';
 	
@@ -72,17 +76,8 @@ exports.action = function(data, callback, config, SARAH){
 	if (data.command === undefined)
 		return callback({});
 	
-	// table of properties
-	var _ScenarizConf = {
-		language: config.modules.scenariz['language'] || 'FR_fr',
-		debug: config.modules.scenariz['debug'] || 'false'
-	};
-	
 	// localized messages
-	lang = _ScenarizConf.language; // Added for cron...
-	msg = require('./lib/lang/' + _ScenarizConf.language);
-	// mode debug
-	debug = _ScenarizConf.debug;
+	msg = require('./lib/lang/' + lang);
 	if (debug == 'true') console.log(msg.localized('debug'));
 	
 	// table of actions
@@ -91,8 +86,10 @@ exports.action = function(data, callback, config, SARAH){
 		setTime: function() {setTime(callback);return},
 		// Speech, specific for Cron
 		speech: function() {callback({'tts': data.text});return},
+		// To remove a cron - careful, only one line!
+		remmoveCron: function() {remove_cron(data.program,data.name)},
 		// Save Program
-		ScenarizCron: function() {set_cron(data.program,data.name,data.exec,data.order,data.tempo,data.plug, data.start, data.key, data.ttsCron,_ScenarizConf.language, data.clients)},
+		ScenarizCron: function() {set_cron(data.program,data.name,data.exec,data.order,data.tempo,data.plug, data.start, data.key, data.ttsCron, data.autodestroy, data.mute, data.fifo, lang, data.clients)},
 		// Exec Program, Immediate execution, no at specific date
 		ExecCron: function() {exec_cron(data.program,((data.timeout)?parseInt(data.timeout):0))},
 		// Manage cron
@@ -116,9 +113,18 @@ var setTime = function(callback) {
 }
 
 
+var remove_cron = function (program, name) {
+	
+	var remember = require('./lib/db/scenarizdb')({
+			sarah: SARAH,
+			lang: lang,
+			sarahClient: SarahClient,
+			debug: debug});
+	remember.remove(program,name);
 
+}
 
-var set_cron = function (program, name, exec, order, tempo, plugin, start, key, tts, lang, Clients) {
+var set_cron = function (program, name, exec, order, tempo, plugin, start, key, tts, autodestroy, mute, fifo, lang, Clients) {
 	
 	var tokenize = start.split('-'),
 		hour = tokenize.shift(),
@@ -141,7 +147,10 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 	key = ((key) ? key : null);
 	Clients = ((Clients) ? Clients : 'SARAH1' ); //Sarah clients by default
 	program = ((program) ? program : msg.localized('generalCron') ); // Group of cron, "General" by default
-
+	autodestroy = ((autodestroy) ? autodestroy : "false" ); // If true, the program is destroyed after execution
+	fifo  = ((fifo) ? fifo : "false" ); // first client  executes it then delete
+	mute = ((mute) ? "true" : "false" );
+	
     if (debug == 'true') console.log("hour: " + hour + " days: " + days);	
 	
 	if (SarahClient) {
@@ -150,9 +159,9 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 				lang: lang,
 				sarahClient: SarahClient,
 				debug: debug});
-		remember.save(program,plugin,name,order,tempo,exec,key,tts,hour,days,Clients);
+		remember.save(program,plugin,name,order,tempo,exec,key,tts,autodestroy,mute,fifo,hour,days,Clients);
 	} else 
-		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
+		console.log('Scenariz Cron Error: No client name');
 	
 }
 
@@ -167,7 +176,7 @@ var exec_cron = function (program,timeout) {
 				debug: debug});
 		remember.exec(program,timeout);
 	} else 
-		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
+		console.log('Scenariz Cron Error: No client name');
 
 }
 
@@ -182,7 +191,7 @@ var manage_cron = function () {
 				debug: debug});
 		remember.manage();
 	} else 
-		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
+		console.log('Scenariz Cron Error: No client name');
 	
 }
 

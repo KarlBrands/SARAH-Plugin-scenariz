@@ -15,7 +15,7 @@
 		  <br>
           </p>
 		   <p>
-           Développé pour Sarah V 3.1.6<br>
+           Développé pour Sarah V 3.1.6 (NON COMPATIBLE V4. Pas encore essayé)<br>
 		   Version 2.0 - 18/04/2015<br>
 		   Author: Stéphane Bascher<br>
 		  </p>
@@ -65,8 +65,7 @@
 <pre>
 &lsaquo;item&rsaquo;Début de l'heure du réveil&lsaquo;tag&rsaquo;out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="réveil à 7h 45 dans la chambre";out.action.order="1";out.action.tempo="6000";out.action.exec="true";out.action.plug="scenariz";out.action.start="07:45-1111100";out.action.ttsCron="Bonjour Stéphane. Il est %s, il est l'heure de te réveiller.";out.action.key="command=setTime"&lsaquo;/tag&rsaquo;&lsaquo;/item&rsaquo;
 </pre>	
-			Pour cette exemple, j'ai un multi-rooms. Pour des raisons pratiques et malheureusement nécéssaires que nous n'évoquerons pas ici, le répertoire plugin de mon serveur du Salon est un lien physique avec le répertoire plugin du serveur Sarah qui est dans la chambre (de cette façon, ce répertoire est mis à jour automatiquement partout lors d'une modification).<br>	
-			Pour eviter d'avoir le réveil qui s'exécute dans les 2 pièces, je définis dans out.action.client le nom du client Sarah de la chambre qui est "CHAMBRE" où l'action sera exécutée.<br>		
+			Pour cette exemple, j'ai un multi-rooms. Pour faire en sorte que le réveil s'exécute dans la pièce de mon choix, je définis dans out.action.client le nom du client Sarah de la chambre qui est "CHAMBRE" où l'action sera exécutée.<br>		
 			vous pouvez voir aussi une tempo de 6 secondes pour l'action suivante, ce qui laisse le temps à Sarah de vocaliser la phrase avant de démarrer l'action 2 "météo".<br><br>	
 	
 			<b>2: La Météo</b><br>

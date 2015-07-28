@@ -17,15 +17,14 @@ on top of:
 
 ## Description
 
-A plug-in to make scenarios:
-- At the time and week days of your choice.
-- Immediate execution or with time-out.
-- managing and modifications by voice orders
-- no limit of actions in scenarios.
-- multi languages.
+Créez vos scénarios:
+- A exécution programmée, à l'heure et aux jours de la semaine de votre choix.
+- A exécution immédiate ou différée par règle.
+- gestion (activation/désativation/modification de l'heure, des jours, etc...) des scénarios par la voix.
+- Aucune limite d'actions dans un scénario.
 
 
-## Quick Start
+## Démarrage rapide
 
-Download the plug-in from SARAH's AppStore and follow online plugin's documentation  
+Téléchargez le plug-in et suivez la documentation. 
    
