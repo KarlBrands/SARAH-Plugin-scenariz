@@ -2,7 +2,7 @@
   "modules" : { 
     "scenariz" : {
       "description": "Make scenarios for Sarah",
-      "version": "2.0",
+      "version": "2.1",
 	  "multiRoom": "true",
 	  "defaultRoom": "",
 	  "debug": "true",

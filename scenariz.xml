@@ -2,7 +2,8 @@
 
   <rule id="rulescenariz">
     <tag>out.action=new Object()</tag>
-    
+	
+    <item>Sarah</item>
     <one-of>
 		<!-- modification of programs, program have to exist-->		
 		<item>gestion des programmes<tag>out.action.command="ManageCron"</tag></item>
