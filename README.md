@@ -23,8 +23,8 @@ Téléchargez le plug-in et suivez la documentation.
    
    
 ## Versions
-Version 2.2 - avant le 18/10/2015
-	- Correction mineure de l'initialisation de la variable 'debug'
+Version 2.2 (après le 18/10/2015)
+- Correction mineure de l'initialisation de la variable 'debug'
 
-Version 2.1 - avant le 18/10/2015
-Release.
+Version 2.1 (avant le 18/10/2015)
+- Release.
