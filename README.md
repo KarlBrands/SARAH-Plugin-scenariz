@@ -6,25 +6,25 @@ on top of:
 * NodeJS (ExpressJS) server for Internet of Things communication
 
 
-## License
-```
- This program is free software. It comes without any warranty, to
- the extent permitted by applicable law. You can redistribute it
- and/or modify it under the terms of the Do What The Fuck You Want
- To Public License, Version 2, as published by S.A.R.A.H. See
- http://www.wtfpl.net/ for more details.
-```
-
 ## Description
 
 Créez vos scénarios:
 - A exécution programmée, à l'heure et aux jours de la semaine de votre choix.
-- A exécution immédiate ou différée par règle.
-- gestion (activation/désativation/modification de l'heure, des jours, etc...) des scénarios par la voix.
+- A exécution immédiate ou différée.
+- Gestion des scénarios par dialogue:
+	- Sarah vous donne l'état des scénarios.
+	- Activation/désativation.
+	- Modification de l'heure, des minutes, des jours.
 - Aucune limite d'actions dans un scénario.
 
 
 ## Démarrage rapide
-
 Téléchargez le plug-in et suivez la documentation. 
    
+   
+## Versions
+Version 2.2 - avant le 18/10/2015
+	- Correction mineure de l'initialisation de la variable 'debug'
+
+Version 2.1 - avant le 18/10/2015
+Release.

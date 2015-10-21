@@ -28,7 +28,7 @@ exports.init = function(sarah){
 // Cron
 exports.cron = function(callback, task){
 
-	// It's time to check if some things are to do
+	// It's time to check if a thing is to do
 	if (SarahClient) {
 		var remember = require('./lib/db/scenarizdb')({
 			sarah: SARAH,
@@ -47,8 +47,12 @@ exports.cron = function(callback, task){
 // Init Senariz	
 var initScenariz = function(SARAH, callback) {
 	
-	var config = SARAH.ConfigManager.getConfig();
-	var multiRoom = config.modules.scenariz['multiRoom'] || 'false';
+	var config = SARAH.ConfigManager.getConfig(),
+	    multiRoom = config.modules.scenariz['multiRoom'] || 'false';
+	    
+	debug  = config.modules.scenariz['debug'] || 'false';
+	lang = config.modules.scenariz['language'] || 'FR_fr';
+
 	if (multiRoom.toLowerCase() == 'true') {
 		// Search client name
 		path = require('path'); 
@@ -60,9 +64,6 @@ var initScenariz = function(SARAH, callback) {
 			console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
 	} else 
 		SarahClient = config.modules.scenariz['defaultRoom'] || 'SARAH1';
-	
-	debug  = config.modules.scenariz['debug'] || 'false';
-	lang = config.modules.scenariz['language'] || 'FR_fr';
 	
 	// callback if required
 	if (callback) callback();
