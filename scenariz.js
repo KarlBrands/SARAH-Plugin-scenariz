@@ -90,7 +90,7 @@ exports.action = function(data, callback, config, SARAH){
 		// To remove a cron - careful, only one line!
 		remmoveCron: function() {remove_cron(data.program,data.name)},
 		// Save Program
-		ScenarizCron: function() {set_cron(data.program,data.name,data.exec,data.order,data.tempo,data.plug, data.start, data.key, data.ttsCron, data.autodestroy, data.mute, data.fifo, lang, data.clients)},
+		ScenarizCron: function() {set_cron(data.program,data.name,data.exec,data.order,data.tempo,data.plug, data.start, data.key, data.ttsCron, data.autodestroy, data.mute, data.fifo, data.speechStartOnRecord, lang, data.clients)},
 		// Exec Program, Immediate execution, no at specific date
 		ExecCron: function() {exec_cron(data.program,((data.timeout)?parseInt(data.timeout):0))},
 		// Manage cron
@@ -125,7 +125,7 @@ var remove_cron = function (program, name) {
 
 }
 
-var set_cron = function (program, name, exec, order, tempo, plugin, start, key, tts, autodestroy, mute, fifo, lang, Clients) {
+var set_cron = function (program, name, exec, order, tempo, plugin, start, key, tts, autodestroy, mute, fifo, speechStartOnRecord, lang, Clients) {
 	
 	var tokenize = start.split('-'),
 		hour = tokenize.shift(),
@@ -151,6 +151,7 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 	autodestroy = ((autodestroy) ? autodestroy : "false" ); // If true, the program is destroyed after execution
 	fifo  = ((fifo) ? fifo : "false" ); // first client  executes it then delete
 	mute = ((mute) ? "true" : "false" );
+	speechStartOnRecord = ((speechStartOnRecord) ? speechStartOnRecord : "false" );
 	
     if (debug == 'true') console.log("hour: " + hour + " days: " + days);	
 	
@@ -160,7 +161,7 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 				lang: lang,
 				sarahClient: SarahClient,
 				debug: debug});
-		remember.save(program,plugin,name,order,tempo,exec,key,tts,autodestroy,mute,fifo,hour,days,Clients);
+		remember.save(program,plugin,name,order,tempo,exec,key,tts,autodestroy,mute,fifo,speechStartOnRecord,hour,days,Clients);
 	} else 
 		console.log('Scenariz Cron Error: No client name');
 	

@@ -1,20 +1,174 @@
 <grammar version="1.0" xml:lang="fr-FR" mode="voice"  root="rulescenariz" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
+	
+	<!-- 
+	<tag>
+		timer=new Object();
+	</tag>
+	
+	<rule id="Minute">
+		<item  repeat="0-1">
+			<one-of>
+				<item>une<tag>timer.mn="01";</tag></item>
+				<item>deux<tag>timer.mn="02";</tag></item>
+				<item>trois<tag>timer.mn="03";</tag></item>
+				<item>quatre<tag>timer.mn="04";</tag></item>
+				<item>cinq<tag>timer.mn="05";</tag></item>
+				<item>six<tag>timer.mn="06";</tag></item>
+				<item>sept<tag>timer.mn="07";</tag></item>
+				<item>huit<tag>timer.mn="08";</tag></item>
+				<item>neuf<tag>timer.mn="09";</tag></item>
+				<item>dix<tag>timer.mn="10";</tag></item>
+				<item>onze<tag>timer.mn="11";</tag></item>
+				<item>douze<tag>timer.mn="12";</tag></item>
+				<item>treize<tag>timer.mn="13";</tag></item>
+				<item>quatorze<tag>timer.mn="14";</tag></item>
+				<item>quinze<tag>timer.mn="15";</tag></item>
+				<item>seize<tag>timer.mn="16";</tag></item>
+				<item>dix sept<tag>timer.mn="17";</tag></item>
+				<item>dix huit<tag>timer.mn="18";</tag></item>
+				<item>dix neuf<tag>timer.mn="19";</tag></item>
+				<item>vingt<tag>timer.mn="20";</tag></item>
+				<item>vingt et une<tag>timer.mn="21";</tag></item>
+				<item>vingt deux<tag>timer.mn="22";</tag></item>
+				<item>vingt trois<tag>timer.mn="23";</tag></item>
+				<item>vingt quatre<tag>timer.mn="24";</tag></item>
+				<item>vingt cinq<tag>timer.mn="25";</tag></item>
+				<item>vingt six<tag>timer.mn="26";</tag></item>
+				<item>vingt sept<tag>timer.mn="27";</tag></item>
+				<item>vingt huit<tag>timer.mn="28";</tag></item>
+				<item>vingt neuf<tag>timer.mn="29";</tag></item>
+				<item>trente<tag>timer.mn="30";</tag></item>
+				<item>trente et une<tag>timer.mn="31";</tag></item>
+				<item>trente deux<tag>timer.mn="32";</tag></item>
+				<item>trente trois<tag>timer.mn="33";</tag></item>
+				<item>trente quatre<tag>timer.mn="34";</tag></item>
+				<item>trente cinq<tag>timer.mn="35";</tag></item>
+				<item>trente six<tag>timer.mn="36";</tag></item>
+				<item>trente sept<tag>timer.mn="37";</tag></item>
+				<item>trente huit<tag>timer.mn="38";</tag></item>
+				<item>trente neuf<tag>timer.mn="39";</tag></item>
+				<item>quarante<tag>timer.mn="40";</tag></item>
+				<item>quarante et une<tag>timer.mn="41";</tag></item>
+				<item>quarante deux<tag>timer.mn="42";</tag></item>
+				<item>quarante trois<tag>timer.mn="43";</tag></item>
+				<item>quarante quatre<tag>timer.mn="44";</tag></item>
+				<item>quarante cinq<tag>timer.mn="45";</tag></item>
+				<item>quarante six<tag>timer.mn="46";</tag></item>
+				<item>quarante sept<tag>timer.mn="47";</tag></item>
+				<item>quarante huit<tag>timer.mn="48";</tag></item>
+				<item>quarante neuf<tag>timer.mn="49";</tag></item>
+				<item>cinquante<tag>timer.mn="50";</tag></item>
+				<item>cinquante et une<tag>timer.mn="51";</tag></item>
+				<item>cinquante deux<tag>timer.mn="52";</tag></item>
+				<item>cinquante trois<tag>timer.mn="53";</tag></item>
+				<item>cinquante quatre<tag>timer.mn="54";</tag></item>
+				<item>cinquante cinq<tag>timer.mn="55";</tag></item>
+				<item>cinquante six<tag>timer.mn="56";</tag></item>
+				<item>cinquante sept<tag>timer.mn="57";</tag></item>
+				<item>cinquante huit<tag>timer.mn="58";</tag></item>
+				<item>cinquante neuf<tag>timer.mn="59";</tag></item>
+			</one-of>
+		</item>
+   </rule>
+	
+	<rule id="Hour">
+		<item>a</item>
+		<one-of>
+			<item>une heure<tag>timer.hour="01";</tag></item>
+			<item>deux heure<tag>test.hour="02";</tag></item>
+			<item>trois heure<tag>timer.hour="03";</tag></item>
+			<item>quatre heure<tag>timer.hour="04";</tag></item>
+			<item>cinq heure<tag>timer.hour="05";</tag></item>
+			<item>six heure<tag>timer.hour="06";</tag></item>
+			<item>sept heure<tag>timer.hour="07";</tag></item>
+			<item>huit heure<tag>timer.hour="08";</tag></item>
+			<item>neuf heure<tag>timer.hour="09";</tag></item>
+			<item>dix heure<tag>timer.hour="10";</tag></item>
+			<item>onze heure<tag>timer.hour="11";</tag></item>
+			<item>douze heure<tag>timer.hour="12";</tag></item>
+			<item>treize heure<tag>timer.hour="13";</tag></item>
+			<item>quatorze heure<tag>timer.hour="14";</tag></item>
+			<item>quinze heure<tag>timer.hour="15";</tag></item>
+			<item>seize heure<tag>timer.hour="16";</tag></item>
+			<item>dix sept heure<tag>timer.hour="17";</tag></item>
+			<item>dix huit heure<tag>timer.hour="18";</tag></item>
+			<item>dix neuf heure<tag>timer.hour="19";</tag></item>
+			<item>vingt heure<tag>timer.hour="20";</tag></item>
+			<item>vingt et une heure<tag>timer.hour="21";</tag></item>
+			<item>vingt deux heure<tag>timer.hour="22";</tag></item>
+			<item>vingt trois heure<tag>timer.hour="23";</tag></item>
+		</one-of>
+   </rule>
+	
+	<rule id="WeekDay">
+		<one-of>
+				<item>Lundi<tag>timer.day="1000000";</tag></item>
+				<item>Mardi<tag>timer.day="0100000";</tag></item>
+				<item>Mercredi<tag>timer.day="0010000";</tag></item>
+				<item>Jeudi<tag>timer.day="0001000";</tag></item>
+				<item>Vendredi<tag>timer.day="0000100";</tag></item>
+				<item>Samedi<tag>timer.day="0000010";</tag></item>
+				<item>Dimanche<tag>timer.day="0000001";</tag></item>
+		</one-of>
+   </rule>
+	
+    <rule id="StartTimer">
+		<item>Met le chauffage</item>
+		<ruleref uri="#WeekDay"/>
+		<ruleref uri="#Hour"/>
+		<ruleref uri="#Minute"/>
+   </rule> 
+   -->
+
+
 
   <rule id="rulescenariz">
     <tag>out.action=new Object()</tag>
-	
-    <item>Sarah</item>
-    <one-of>
-		<!-- modification of programs, program have to exist-->		
+    
+	<item>Sarah</item>
+    
+	<one-of>
+		<!-- Gestion et modification des programmes, les programmes doivent exister-->		
 		<item>gestion des programmes<tag>out.action.command="ManageCron"</tag></item>
 		
-		<!-- Immediat execution -->
-		<!-- Demonstration -->
-		<item>fais nous une petite démo<tag>out.action.command="ExecCron";out.action.program="Démo"</tag></item>
-		<!-- je sors... exemple
-		<item>Je m'en vais<tag>out.action.command="ExecCron";out.action.program="Fermeture maison"</tag></item>
+	
+		<!-- exemple d'un programme à exécution immédiate qui appelle le scénario de démo domotique plus bas 
+		<item>fais nous une petite démo<tag>out.action.command="ExecCron";out.action.program="Démo"</tag></item> -->
+		
+		<!-- exemple d'un programme à exécution immédiate qui appelle le scénario qui ferme tout et active l'alarme plus bas -->
+		<!-- <item>Je m'en vais<tag>out.action.command="ExecCron";out.action.program="Fermeture maison"</tag></item>
 		<item>Je part travailler<tag>out.action.command="ExecCron";out.action.program="Fermeture maison"</tag></item>
 		-->
+		
+		
+		<!-- Exemple de scenario dynamique qui se détruit après exécution -->
+		<!-- Appelle les rules au-dessus StartTimer, WeekDay, Hour, Minute -->
+		<!-- Décommenter ces rules pour utiliser cette règle -->
+		<!-- Exemple de dialogue: sarah met le chauffage mardi à 14h20 minute -->
+		<!-- <item><ruleref uri="#StartTimer"/>
+			<tag>
+				if (timer.hour != undefined) {
+					out.action.start = timer.hour  + ":";
+					if (timer.mn != undefined)
+						out.action.start = out.action.start + timer.mn + "-";
+					else 
+						out.action.start = out.action.start + "00-";
+				   if (timer.day != undefined)
+						out.action.start = out.action.start + timer.day;
+					else 
+						out.action.start = "noWay";
+				} else 
+					out.action.start = "noWay";
+				out.action.command="ScenarizCron";
+				out.action.clients="SARAH1";
+				out.action.program="Chauffage dynamique";
+				out.action.name="Chauffage dynamique à heure fixe";
+				out.action.autodestroy="true";
+				out.action.plug="OBLIGATOIRE! REPLACER PAR UN NOM DE PLUGIN";
+				out.action.key="OPTIONNEL! REPLACER PAR LES CLES DU PLUGIN SINON SUPPRIMER LA LIGNE ENTIERE AVEC LE out.action.key";
+				out.action.speechStartOnRecord="true";
+			</tag>
+		</item> -->
 		
 		
 		
@@ -24,7 +178,7 @@
 		
 		
 		
-		<!-- First example of a scenario. Small Wakeup program - See the documentation about explanation	
+		<!-- exemple de scenario: Petit programme de réveil avec 6 actions- See the documentation about explanation	
 		<item>Début de l'heure du réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="réveil à 7h 45 dans la chambre";out.action.order="1";out.action.tempo="6000";out.action.exec="true";out.action.plug="scenariz";out.action.start="07:45-1111100";out.action.ttsCron="Bonjour Stéphane. Il est %s, il est l'heure de te réveiller.";out.action.key="command=setTime"</tag></item>
 		<item>Ajoute la météo au réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Météo à 7h 45 dans la chambre";out.action.tempo="25000";out.action.exec="true";out.action.order="2";out.action.plug="meteo";out.action.start="07:45-1111100";out.action.ttsCron="La %s. Passe une bonne journée.";out.action.key="zip=315550~date=0"</tag></item>
 		<item>musique du réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="musique à 7h 45 dans la chambre";out.action.order="3";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:45-1111100";out.action.key="command=set_media~type=favorite~title=Mes Préférées"</tag></item>
@@ -33,7 +187,7 @@
 		<item>augmente beaucoup le son a 08h10<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="augmente beaucoup le son pour le reveil à 8h 10 dans la chambre";out.action.order="2";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="08:10-1111100";out.action.key="command=volume~setTo=30"</tag></item>
 		-->	
 		
-		<!-- Next example: another Wakeup program more complicated
+		<!-- exemple de scenario: Programme de réveil un peu plus conséquent avec 13 actions
 		<item>Début de l'heure du réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="réveil à 7h 30 dans la chambre";out.action.order="1";out.action.tempo="6000";out.action.exec="true";out.action.plug="scenariz";out.action.start="07:30-1111100";out.action.ttsCron="Bonjour Stéphane. Il est %s, il est l'heure de te réveiller.";out.action.key="command=setTime"</tag></item>
 		<item>Ajoute la météo au réveil<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Météo à 7h 30 dans la chambre";out.action.tempo="25000";out.action.exec="true";out.action.order="2";out.action.plug="meteo";out.action.start="07:30-1111100";out.action.ttsCron="La %s. Passe une bonne journée.";out.action.key="zip=315550~date=0"</tag></item>
 		<item>pour la Chambre<tag>out.action.command="ScenarizCron";out.action.clients="CHAMBRE";out.action.program="Réveil";out.action.name="Activation Chambre à 7h 30";out.action.order="3";out.action.tempo="500";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="07:30-1111100";out.action.key="command=setRoom~room=Chambre"</tag></item>	
@@ -49,7 +203,7 @@
 		<item>Désactive le suivi pour le réveil<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Réveil";out.action.name="Désactive le suivi";out.action.order="1";out.action.exec="true";out.action.plug="SonosPlayer";out.action.start="09:00-1111100";out.action.key="command=followme~followme=Off"</tag></item>
 		-->
 		
-		<!--  Next example: Small Démo scenario
+		<!-- exemple de scenario: Petit scenario de démo domotique
 		<item>Allume la cuisine pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo allume la cuisine";out.action.order="1";out.action.tempo="4000";out.action.exec="false";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.ttsCron="je peux allumer la cuisine.";out.action.key="command=set~value=100~periph=lightDimmer~room=Cuisine"</tag></item>
 		<item>Eteint la cuisine pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo eteint la cuisine";out.action.order="2";out.action.tempo="4000";out.action.exec="false";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.ttsCron="je peux éteintre la cuisine.";out.action.key="command=set~value=0~periph=lightDimmer~room=Cuisine"</tag></item>
 		<item>Allume le salon pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo allume le salon";out.action.order="3";out.action.tempo="4000";out.action.exec="false";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.ttsCron="je peux allumer le salon.";out.action.key="command=set~value=100~periph=lightDimmer~room=Salon"</tag></item>
@@ -70,7 +224,7 @@
 		<item>phrase de fin pour la démo<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Démo";out.action.name="Démo phrase de fin";out.action.order="18";out.action.exec="false";out.action.plug="scenariz";out.action.start="07:30-1111111";out.action.key="command=speech~text=je peux faire pleins d'autres choses, c'est juste une petite démo."</tag></item>
 		-->	
 		
-		<!--  Next example: close everything and activate the alarm when i leave home
+		<!-- exemple de scenario: Démo d'un programme qui ferme tout et active l'alarme
 		<item>éteindre la musique dans le salon pour partir<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Fermeture maison";out.action.name="partir et éteindre la musique du salon";out.action.order="1";out.action.tempo="2000";out.action.exec="false";out.action.plug="SonosPlayer";out.action.start="07:30-1111111";out.action.key="command=pause~room=Salon"</tag></item>
 		<item>éteindre la musique dans la chambre pour partir<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Fermeture maison";out.action.name="partir et éteindre la musique de la chambre";out.action.order="2";out.action.tempo="2000";out.action.exec="false";out.action.plug="SonosPlayer";out.action.start="07:30-1111111";out.action.key="command=pause~room=Chambre"</tag></item>
 		<item>éteindre la lumière du salon pour partir<tag>out.action.command="ScenarizCron";out.action.clients="SALON";out.action.program="Fermeture maison";out.action.name="partir et éteindre la lumière du salon";out.action.order="3";out.action.tempo="2000";out.action.exec="false";out.action.plug="eeDomus";out.action.start="07:30-1111111";out.action.key="command=set~value=0~periph=lightDimmer~room=Salon"</tag></item>
@@ -79,7 +233,10 @@
 		
 	</one-of>
 	
-	<item repeat="0-1">
+	<!-- exemple de règle pour le scénario qui ferme tout et active l'alarme -->
+	<!-- dialogue: sarah Je part travailler ferme tout dans dix minutes -->
+	<!-- Résultat: activera le scénario dans 10 minutes -->
+	<!-- <item repeat="0-1">
 		<one-of>
 			<item>ferme</item>
 			<item>verouille</item>
@@ -94,7 +251,6 @@
 	
 	<item repeat="0-1">
 		<one-of>
-			<!-- timeout in minutes -->
 			<item>dans cinq minutes<tag>out.action.timeout="5";out.action._attributes.tts="D'accord, je ferme tout dans 5 minutes. Bonne journée stèph"</tag></item>
 			<item>dans dix minutes<tag>out.action.timeout="10";out.action._attributes.tts="D'accord, je ferme tout dans 10 minutes. Bonne journée stèph"</tag></item>
 			<item>dans quinze minutes<tag>out.action.timeout="15";out.action._attributes.tts="D'accord, je ferme tout dans 15 minutes. Bonne journée stèph"</tag></item>
@@ -107,7 +263,7 @@
 			<item>dans une heure trente<tag>out.action.timeout="90";out.action._attributes.tts="D'accord, je ferme tout dans 1 heure et demi. Bonne journée stèph"</tag></item>
 			<item>dans deux heures<tag>out.action.timeout="120";out.action._attributes.tts="D'accord, je ferme tout dans 2 heures. Bonne journée stèph"</tag></item>
 		</one-of>
-	</item>
+	</item> -->
 	
     <tag>out.action._attributes.uri="http://127.0.0.1:8080/sarah/scenariz"</tag>
   </rule>
