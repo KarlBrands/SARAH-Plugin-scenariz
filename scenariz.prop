@@ -2,7 +2,7 @@
   "modules" : { 
     "scenariz" : {
       "description": "Make scenarios for Sarah",
-      "version": "2.3",
+      "version": "2.4",
 	  "multiRoom": "true",
 	  "defaultRoom": "",
 	  "debug": "true",
@@ -13,7 +13,7 @@
     "scenariz" :   { 
 	  "name"       : "scenariz",
       "description": "scenariz Cron",
-	  "version": "2.3",
+	  "version": "2.4",
       "time"       : "*/5 * * * *"
     }
   }

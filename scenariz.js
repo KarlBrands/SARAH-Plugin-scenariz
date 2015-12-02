@@ -16,7 +16,10 @@ var SARAH
 	 , lang
 	 , SarahClient
 	 , fs = require('fs')
+	 , moment = require('./lib/moment/moment')
 	 , ini = require('./lib/ini/ini');
+	 
+moment.locale('fr');	
 	
 // Init Sarah	 
 exports.init = function(sarah){
@@ -125,6 +128,7 @@ var remove_cron = function (program, name) {
 
 }
 
+
 var set_cron = function (program, name, exec, order, tempo, plugin, start, key, tts, autodestroy, mute, fifo, speechStartOnRecord, lang, Clients) {
 	
 	var tokenize = start.split('-'),
@@ -134,6 +138,10 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 	if (!days || !hour) {
 		SARAH.speak ( msg.err_localized('cron_no_date'));
 		return;
+	}
+	
+	if (days.toLowerCase() == 'today' || days.toLowerCase() == 'tomorrow' || days.toLowerCase() == 'aftertomorrow' ) {
+		days = setDayOfWeek(days);
 	}
 	
 	if (!plugin) {
@@ -195,6 +203,53 @@ var manage_cron = function () {
 	} else 
 		console.log('Scenariz Cron Error: No client name');
 	
+}
+
+
+var setDayOfWeek = function(days) {
+	
+	var today = parseInt(moment().weekday());
+	days = days.toLowerCase(); 
+	switch (days) {
+		case 'today':
+			switch (today) {
+				case 0: return "1000000";
+				case 1: return "0100000";
+				case 2: return "0010000";
+				case 3: return "0001000";
+				case 4: return "0000100";
+				case 5: return "0000010";
+				case 6: return "0000001";
+				default:  return "1111111";
+			}
+			break;
+		case 'tomorrow':
+			switch (today) {
+				case 0: return "0100000";
+				case 1: return "0010000";
+				case 2: return "0001000";
+				case 3: return "0000100";
+				case 4: return "0000010";
+				case 5: return "0000001";
+				case 6: return "1000000";
+				default:  return "1111111";
+			}
+			break;
+		case 'aftertomorrow':
+			switch (today) {
+				case 0: return "0010000";
+				case 1: return "0001000";
+				case 2: return "0000100";
+				case 3: return "0000010";
+				case 4: return "0000001";
+				case 5: return "1000000";
+				case 6: return "0100000";
+				default:  return "1111111";
+			}
+			break;
+		default:
+			return "1111111";
+	}
 }
 
 

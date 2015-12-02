@@ -23,6 +23,11 @@ Téléchargez le plug-in et suivez la documentation.
    
    
 ## Versions
+Version 2.4 (02/12/2015)
+- Multiroom amélioré. Exécution du programme dans la pièce courante par clients=currentRoom. Ajouté pour la compatibilité avec le module "motionSensor" qui met dans un JSON la pièce courante par capteur de présence.
+- Amélioration de l'exemple de scénario dynamique (exemple pour mettre un chauffage en donnant le jour et l'heure) maintenant possible en disant:
+	- Aujourd'hui, Demain, Après-demain ou directement l'heure (le jour courant est alors aujourd'hui).
+
 Version 2.3 (16/11/2015)
 - Petite correction de la gestion de la propriété autodestroy
 - Ajout d'une propriété speechStartOnRecord ('true' ou 'false') pour que Sarah dise le jour et l'heure d'enregistrement du scénario.

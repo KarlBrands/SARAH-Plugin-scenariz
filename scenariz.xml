@@ -101,7 +101,11 @@
    </rule>
 	
 	<rule id="WeekDay">
-		<one-of>
+		<item  repeat="0-1">
+			<one-of>
+				<item>Aujourd'hui<tag>timer.day="today";</tag></item>
+				<item>Demain<tag>timer.day="tomorrow";</tag></item>
+				<item>Après demain<tag>timer.day="aftertomorrow";</tag></item>
 				<item>Lundi<tag>timer.day="1000000";</tag></item>
 				<item>Mardi<tag>timer.day="0100000";</tag></item>
 				<item>Mercredi<tag>timer.day="0010000";</tag></item>
@@ -109,11 +113,18 @@
 				<item>Vendredi<tag>timer.day="0000100";</tag></item>
 				<item>Samedi<tag>timer.day="0000010";</tag></item>
 				<item>Dimanche<tag>timer.day="0000001";</tag></item>
-		</one-of>
+			</one-of>
+		</item>
    </rule>
 	
     <rule id="StartTimer">
-		<item>Met le chauffage</item>
+		<item  repeat="0-1">
+			<one-of>
+				<item>Met le</item>
+				<item>Programme le</item>
+			</one-of>
+		</item>
+		<item>chauffage</item>
 		<ruleref uri="#WeekDay"/>
 		<ruleref uri="#Hour"/>
 		<ruleref uri="#Minute"/>
@@ -156,7 +167,7 @@
 				   if (timer.day != undefined)
 						out.action.start = out.action.start + timer.day;
 					else 
-						out.action.start = "noWay";
+						out.action.start = out.action.start + "today";
 				} else 
 					out.action.start = "noWay";
 				out.action.command="ScenarizCron";
