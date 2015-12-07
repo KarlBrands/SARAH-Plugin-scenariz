@@ -1,5 +1,6 @@
 <grammar version="1.0" xml:lang="fr-FR" mode="voice"  root="rulescenariz" xmlns="http://www.w3.org/2001/06/grammar" tag-format="semantics/1.0">
 	
+	<!-- 
 	<tag>
 		timer=new Object();
 	</tag>
@@ -102,16 +103,16 @@
 	<rule id="WeekDay">
 		<item  repeat="0-1">
 			<one-of>
-					<item>Aujourd'hui<tag>timer.day="today";</tag></item>
-					<item>Demain<tag>timer.day="tomorrow";</tag></item>
-					<item>Après demain<tag>timer.day="aftertomorrow";</tag></item>
-					<item>Lundi<tag>timer.day="1000000";</tag></item>
-					<item>Mardi<tag>timer.day="0100000";</tag></item>
-					<item>Mercredi<tag>timer.day="0010000";</tag></item>
-					<item>Jeudi<tag>timer.day="0001000";</tag></item>
-					<item>Vendredi<tag>timer.day="0000100";</tag></item>
-					<item>Samedi<tag>timer.day="0000010";</tag></item>
-					<item>Dimanche<tag>timer.day="0000001";</tag></item>
+				<item>Aujourd'hui<tag>timer.day="today";</tag></item>
+				<item>Demain<tag>timer.day="tomorrow";</tag></item>
+				<item>Après demain<tag>timer.day="aftertomorrow";</tag></item>
+				<item>Lundi<tag>timer.day="1000000";</tag></item>
+				<item>Mardi<tag>timer.day="0100000";</tag></item>
+				<item>Mercredi<tag>timer.day="0010000";</tag></item>
+				<item>Jeudi<tag>timer.day="0001000";</tag></item>
+				<item>Vendredi<tag>timer.day="0000100";</tag></item>
+				<item>Samedi<tag>timer.day="0000010";</tag></item>
+				<item>Dimanche<tag>timer.day="0000001";</tag></item>
 			</one-of>
 		</item>
    </rule>
@@ -128,13 +129,15 @@
 		<ruleref uri="#Hour"/>
 		<ruleref uri="#Minute"/>
    </rule> 
+   -->
+
 
 
   <rule id="rulescenariz">
     <tag>out.action=new Object()</tag>
-    
-	<item>Sarah</item>
-    
+	
+    <item>Sarah</item>
+	
 	<one-of>
 		<!-- Gestion et modification des programmes, les programmes doivent exister-->		
 		<item>gestion des programmes<tag>out.action.command="ManageCron"</tag></item>
@@ -154,7 +157,7 @@
 		<!-- Décommenter ces rules pour utiliser cette règle -->
 		<!-- Exemple de dialogue: sarah met le chauffage mardi à 14h20 -->
 		<!-- Exemple de dialogue: sarah met le chauffage demain à 14h20 -->
-		<item><ruleref uri="#StartTimer"/>
+		<!-- <item><ruleref uri="#StartTimer"/>
 			<tag>
 				if (timer.hour != undefined) {
 					out.action.start = timer.hour  + ":";
@@ -177,7 +180,7 @@
 				out.action.key="OPTIONNEL! REPLACER PAR LES CLES DU PLUGIN SINON SUPPRIMER LA LIGNE ENTIERE AVEC LE out.action.key";
 				out.action.speechStartOnRecord="true";
 			</tag>
-		</item> 
+		</item> -->
 		
 		
 		
