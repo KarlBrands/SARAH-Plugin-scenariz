@@ -11,10 +11,18 @@ on top of:
 Créez vos scénarios:
 - A exécution programmée, à l'heure et aux jours de la semaine de votre choix.
 - A exécution immédiate ou différée.
+- A exécution par règle en précisant:
+	- Aujourd'hui, Demain, Après-demain.
+	- Le jour, l'heure ou les minutes.
 - Gestion des scénarios par dialogue:
 	- Sarah vous donne l'état des scénarios.
-	- Activation/désativation.
-	- Modification de l'heure, des minutes, des jours.
+	- Activation/Désativation.
+	- Modification de l'heure, des minutes.
+	- Modification des jours de programmation:
+		- Semaine de travail.
+		- Semaine entière.
+		- En précisant les jours.
+	- Suppression du programme.
 - Aucune limite d'actions dans un scénario.
 
 
@@ -23,6 +31,9 @@ Téléchargez le plug-in et suivez la documentation.
    
    
 ## Versions
+Version 2.5 (07/12/2015)
+- Ajout d'une règle "Supprime tous les programmes".
+
 Version 2.4 (02/12/2015)
 - Multiroom amélioré. Exécution du programme dans la pièce courante par clients=currentRoom. Ajouté pour la compatibilité avec le module "motionSensor" qui met dans un JSON la pièce courante par capteur de présence.
 - Amélioration de l'exemple de scénario dynamique (exemple pour mettre un chauffage en donnant le jour et l'heure) maintenant possible en disant:

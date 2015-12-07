@@ -92,6 +92,8 @@ exports.action = function(data, callback, config, SARAH){
 		speech: function() {callback({'tts': data.text});return},
 		// To remove a cron - careful, only one line!
 		remmoveCron: function() {remove_cron(data.program,data.name)},
+		// To remove ALL crons
+		RemoveAllCron: function() {remove_AllCron()},
 		// Save Program
 		ScenarizCron: function() {set_cron(data.program,data.name,data.exec,data.order,data.tempo,data.plug, data.start, data.key, data.ttsCron, data.autodestroy, data.mute, data.fifo, data.speechStartOnRecord, lang, data.clients)},
 		// Exec Program, Immediate execution, no at specific date
@@ -127,6 +129,19 @@ var remove_cron = function (program, name) {
 	remember.remove(program,name);
 
 }
+
+
+var remove_AllCron = function () {
+	
+	var remember = require('./lib/db/scenarizdb')({
+			sarah: SARAH,
+			lang: lang,
+			sarahClient: SarahClient,
+			debug: debug});
+	remember.removeAll();
+
+}
+
 
 
 var set_cron = function (program, name, exec, order, tempo, plugin, start, key, tts, autodestroy, mute, fifo, speechStartOnRecord, lang, Clients) {
