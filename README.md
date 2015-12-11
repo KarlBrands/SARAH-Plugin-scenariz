@@ -31,6 +31,9 @@ Téléchargez le plug-in et suivez la documentation.
    
    
 ## Versions
+Version 2.6 (11/12/2015)
+- Correction du bug à l'exécution d'un scénario immédiat avec une seule action.
+
 Version 2.5 (07/12/2015)
 - Ajout d'une règle "Supprime tous les programmes".
 

@@ -263,7 +263,6 @@
 	
 	<item repeat="0-1">
 		<one-of>
-			<item>dans cinq minutes<tag>out.action.timeout="5";out.action._attributes.tts="D'accord, je ferme tout dans 5 minutes. Bonne journée stèph"</tag></item>
 			<item>dans dix minutes<tag>out.action.timeout="10";out.action._attributes.tts="D'accord, je ferme tout dans 10 minutes. Bonne journée stèph"</tag></item>
 			<item>dans quinze minutes<tag>out.action.timeout="15";out.action._attributes.tts="D'accord, je ferme tout dans 15 minutes. Bonne journée stèph"</tag></item>
 			<item>dans vingt minutes<tag>out.action.timeout="20";out.action._attributes.tts="D'accord, je ferme tout dans 20 minutes. Bonne journée stèph"</tag></item>
