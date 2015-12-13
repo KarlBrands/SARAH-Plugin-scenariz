@@ -31,6 +31,9 @@ Téléchargez le plug-in et suivez la documentation.
    
    
 ## Versions
+Version 2.7 (13/12/2015)
+- Correction du bug à l'exécution d'un scénario immédiat avec une seule action en différé. Testé avec un différé d'une minute.
+
 Version 2.6 (11/12/2015)
 - Correction du bug à l'exécution d'un scénario immédiat avec une seule action.
 
