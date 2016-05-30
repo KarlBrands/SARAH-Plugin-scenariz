@@ -124,7 +124,7 @@ Traduisons ça dans un language qui nous convient, c'est à dire des tags pour l
 	- Le Tag 'key' des clés dont l'action a besoin pour s'exécuter.
 	- Format: Tag=Valeur séparés par un tilde (~)
 	- Non obligatoire dans vos scénarios.
-	- Dans le xml du plugin scenariz (clé out.action.plug jsute au dessus), nous aurions pu avoir une règle qui aurait eu ces tags:
+	- Dans le xml du plugin scenariz (clé out.action.plug juste au dessus), nous aurions pu avoir une règle qui aurait eu ces tags:
 		- out.action.command="speech";out.action.text="c'est la phrase de début du scénario de démonstration."
 		- On notera que cette règle n'existe pas bien qu'elle aurait pû. Pourquoi ? Parce qu'il n'est pas necessaire d'avoir une règle dans un xml coté client. Ce qui compte, c'est son exécution dans le js du plugin, coté serveur.
 		- Mémorisez donc cette règle pour faire dire une phrase à Sarah dans vos scénarios :-)
@@ -151,9 +151,30 @@ Il nous reste maintenant à passer cette règle pour l'ajouter dans la base de s
 ```text
 SARAH Début de la démonstration
 ```
+Sarah vous répond:
+```text
+Phrase de début enregistré
+```
+Vous venez de créer un scénario qui s'éxécute tous les jours à 15h30.
 
-
-	
+### Continuons simple	
+Nous allons maintenant modifier la phrase et l'heure de l'action dans notre scénario parce que nous nous sommes trompé (ben quoi, ça arrive...).
+- Nouvelle heure: 20h15
+- Nouvelle phrase: Bonjour, je dois dire quelque chose au début du scénario.
+Pour modifier une action d'un scénario, modifier les valeurs des tags associés directement dans la règle et rejouez la règle.
+```xml	
+<!-- ICI -->
+<item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.plug="scenariz";out.action.start="20:15-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
+```		
+- Dites: 
+```text
+SARAH Début de la démonstration
+```
+Sarah vous répond:
+```text
+Phrase de début remplacé
+```
+Vous venez de modifier l'action du scénario.
 
 
 		
