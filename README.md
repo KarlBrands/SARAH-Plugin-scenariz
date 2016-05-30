@@ -90,12 +90,12 @@ A modifier par:
 	});
 ```
 
-## 1: Créer un scénario
+## Créer un scénario
 - La création d'un scénario se fait dans le fichier scenariz.xml.
 - Chaque action d'un scénario est une règle à définir.
 - Après avoir créé une règle du scénario, il faut la vocaliser pour l'ajouter dans la base de données de scenariz. Cette action n'est à faire qu'une seule fois.
 
-### Commençons simple
+### 1: Commençons simple
 Supposons un scénario qui commence par faire dire à Sarah une petite phrase.
 
 Il nous faut au minimum:
@@ -113,6 +113,11 @@ Traduisons ça dans un language qui nous convient, c'est à dire des tags pour l
 - out.action.name="Phrase de début"
 	- Le Tag 'name' du nom de l'action.
 	- Obligatoire dans vos scénarios.
+- out.action.clients="SARAH1"
+	- Le Tag 'clients' du nom du client Sarah qui exécute le scénario.
+	- Non obligatoire, par défaut 'SARAH1'.
+	- Comme je ne connais pas votre installation, je le met içi sinon le scénario ne s'exécutera pas.
+	- Si votre client Sarah à un nom différent, ajoutez votre nom de client à la place de SARAH1.
 - out.action.start="15:30-1111111"
 	- Le Tag 'start' de la séquence d'exécution l'heure:minute et les jours de la semaine. (7 valeurs: 1 actif, 0 inactif) séparée par un tiret (-).
 	- Je l'ai donc défini à 15h30mn tous les jours.
@@ -127,7 +132,7 @@ Traduisons ça dans un language qui nous convient, c'est à dire des tags pour l
 	- Dans le xml du plugin scenariz (clé out.action.plug juste au dessus), nous aurions pu avoir une règle qui aurait eu ces tags:
 		- out.action.command="speech";out.action.text="c'est la phrase de début du scénario de démonstration."
 		- On notera que cette règle n'existe pas bien qu'elle aurait pû. Pourquoi ? Parce qu'il n'est pas necessaire d'avoir une règle dans un xml coté client. Ce qui compte, c'est son exécution dans le js du plugin, coté serveur.
-		- Mémorisez donc cette règle pour faire dire une phrase à Sarah dans vos scénarios :-)
+		- Mémorisez donc cette fonction pour faire dire une phrase à Sarah dans vos scénarios :-)
 		
 Il faut maintenant écrire une règle avec une phrase à vocaliser "Début de la démonstration" en y incluant ces tags:
 ```xml
@@ -141,7 +146,7 @@ Il faut maintenant écrire une règle avec une phrase à vocaliser "Début de la
 		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
 		<!-- Clé de création du scénario Démonstration -->
-		<item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=c'est la phrase de début du scénario de démonstration."</tag></item>
+		<item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=c'est la phrase de début du scénario de démonstration."</tag></item>
 ```				
 Nous pouvons voir une clé qui n'a pas eu d'explication, la clé out.action.command="ScenarizCron":
 - Cette clé est 'LA' clé de création d'une action de scénario dans le plugin scenariz. Elle est obligatoire !
@@ -157,15 +162,17 @@ Phrase de début enregistré
 ```
 Vous venez de créer un scénario qui s'éxécute tous les jours à 15h30.
 
-### Modification simple	
-Nous allons maintenant modifier la phrase et l'heure de l'action dans notre scénario parce que nous nous sommes trompé (ben quoi, ça arrive...).
+### 1: Modification simple	
+Nous allons maintenant modifier la phrase et l'heure de l'action dans notre scénario parce que nous nous sommes trompés (ben quoi, ça arrive...).
 - Nouvelle heure: 20h15
 - Nouvelle phrase: Bonjour, je dois dire quelque chose au début du scénario.
 
 Pour modifier une action d'un scénario, modifier les valeurs des tags associés directement dans la règle et rejouez la règle.
+##### Important:
+Ne modifiez jamais le nom du scénario et le nom de l'action sinon vous allez créer un nouveau scénario et/ou une nouvelle action. Pour un nouveau scénario ce n'est pas grave mais une autre action dans le scénario va créer un conflict de fonctionnement.
 ```xml	
 <!-- ICI -->
-<item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.plug="scenariz";out.action.start="20:15-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
+<item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="20:15-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
 ```		
 - Dites: 
 ```text
@@ -177,8 +184,8 @@ Phrase de début remplacé
 ```
 Vous venez de modifier l'action du scénario.
 
-### Si on exécutait ce petit scénario ?
-Nous venons de créer un scénario à exécution programmé (tous les jours à 20h15). Néanmoins, un scénario peut être à exécution programmé ou à exécution immédiate par règle sans modification.
+### 1: Si on exécutait ce petit scénario ?
+Nous venons de créer un scénario à exécution programmé (tous les jours à 20h15). Néanmoins, un scénario peut être à exécution programmée ou à exécution immédiate par règle sans aucune modification. Nous pouvons donc l'exécuter pour peu qu'il y est une règle d'exécution associée.
 
 Il suffit juste de créer une règle dans le scenariz.xml qui exécute ce scénario
 Il nous faut:
@@ -200,7 +207,7 @@ Ce qui donne dans le scenariz.xml:
 		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
 		<!-- Clé de création du scénario Démonstration -->
-		<item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
+		<item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
 
 		<!-- Scénario Démonstration -->
 		<item>fais nous une petite démo<tag>out.action.command="ExecCron";out.action.program="Démonstration"</tag></item>
@@ -215,11 +222,80 @@ Sarah exécute:
 Bonjour, je dois dire quelque chose au début du scénario.
 ```
 
+### 2: Un peu plus...
+Supposons maintenant que nous voulons ajouter à notre scénario une 2ème action qui va nous dire l'heure après la phrase de début.
 
+##### A savoir:
+Le plugin 'Time' qui pourrait être appelé dans la V4 de Sarah ne peut pas être appelé dans la V3 puisque dans la V3, c'est un script.
+Donc le plugin scenariz vous propose une action compatible V3,V4 qui donne l'heure.
 
+Mais revenons à notre 2ème action.
+
+Pour avoir plusieurs actions dans une scénario, il y a une question importante à se poser:
+- Les actions 1 puis 2,3... doivent s'enchainer en démarrant à la même heure ou ont-elles des heures/minutes d'exécution différentes ?
+
+Par exemple:
+- Un scénario où la 1ère action va me dire de me lever puis tout de suite après, Sarah met de la musique.
+	- Pour ces 2 actions, l'heure d'exécution est identique, c'est uniquement l'ordre d'exécution qui change:
+		- ordre 1: la phrase de lever.
+		- ordre 2: la musique
+	- puis ensuite, plus tard, 20mn après, pour une 3ème action dans le même scénario, Sarah allume la télé pour que je vois les infos en prenant mon petit déjeuné.
+		- On voit bien là qu'il n'y a plus d'ordre puisque l'heure/minute de l'action change.
+
+En conclusion:
+- Pour des actions qui s'enchainent à la même heure/minute:
+	- On ajoutera un Tag 'out.action.order' dans chaque action pour l'ordre d'exécution.
+	- On ajoutera aussi un délais de temporisation par un Tag 'out.action.tempo' (en milli-secondes) pour exécuter l'action suivante.
+- Pour des actions qui ne sont pas à la même heure, les Tags 'out.action.order' et 'out.action.tempo' ne sont pas obligatoires et sont mis par défaut à:
+	- out.action.order="1"
+	- out.action.tempo=1000
  
+Bien ,créons maintenant notre 2ème action à la même heure que la phrase de début en utilisant l'action de scenariz pour donner l'heure.
+- out.action.key="command=setTime"
+	- setTime est l'action de scenariz qui retourne dans un callback l'heure courante.
+	- Comme pour la fonction speech, mémorisez donc cette fonction pour récupérer un callback tts d'une action d'un plugin et la vocaliser dans vos scénarios :-)
+- out.action.ttsCron="Il est %s"
+	- ttsCron est une clé qui permet de récupérer un callback tts de l'action exécutée et de le vocaliser.
+	- le %s est remplacé par le callback tts donc içi l'heure.
+- out.action.order="2"
+	- Qui défini l'ordre d'exécution pour cette 2ème action.
+
+Il faut aussi que je modifie la 1ère action pour y ajouter:
+- out.action.tempo="3000"	
+	- Disons... 3 secondes pour le déclenchement de l'action suivante.
+- out.action.order="1"	
+	- Pour la forme puisque c'est déjà la valeur par défaut pour cette règle déjà passée.
+
+Ce qui donne dans le scenariz.xml:
+```xml
+ <rule id="rulescenariz">
+    <tag>out.action=new Object()</tag>
+	<item>Sarah</item>
+	 
+	<one-of>
+		<!-- Gestion et modification des programmes, les programmes doivent exister-->		
+		<item>gestion des programmes<tag>out.action.command="ManageCron"</tag></item>
+		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
-		
+		<!-- Clé de création du scénario Démonstration -->
+		<item>Début de la démonstration<tag>out.action.tempo="3000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
+		<item>L'heure dans la démonstration<tag>out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Il est %s"</tag></item>
+```		
+
+Ca va ?, pas de surprises ? :-)
+
+Et bien jouons ces 2 règles !
+- La 1ère pour la modifier.
+- La 2ème pour la créer.
+
+
+
+
+
+
+	
+	
+
 		
 		
 		
