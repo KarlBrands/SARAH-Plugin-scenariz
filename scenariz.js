@@ -33,6 +33,9 @@ exports.cron = function(callback, task){
 
 	// It's time to check if a thing is to do
 	if (SarahClient) {
+		if (exists('clientManager') == true) 
+			SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+		
 		var remember = require('./lib/db/scenarizdb')({
 			sarah: SARAH,
 			lang: lang,
@@ -110,6 +113,16 @@ exports.action = function(data, callback, config, SARAH){
 }
 
 
+var exists = function(cmd){
+
+  var config = SARAH.ConfigManager.getConfig();
+  if (config.modules[cmd])
+    return true;
+
+  return false;
+}
+
+
 var setTime = function(callback) {
 	var date = new Date();
 	var text = date.getHours() + ' ' + msg.localized('heure');
@@ -120,6 +133,9 @@ var setTime = function(callback) {
 
 
 var remove_cron = function (program, name) {
+	
+	if (exists('clientManager') == true) 
+		SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
 	
 	var remember = require('./lib/db/scenarizdb')({
 			sarah: SARAH,
@@ -132,6 +148,9 @@ var remove_cron = function (program, name) {
 
 
 var remove_AllCron = function () {
+	
+	if (exists('clientManager') == true) 
+		SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
 	
 	var remember = require('./lib/db/scenarizdb')({
 			sarah: SARAH,
@@ -179,6 +198,8 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
     if (debug == 'true') console.log("hour: " + hour + " days: " + days);	
 	
 	if (SarahClient) {
+		if (exists('clientManager') == true) 
+			SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
 		var remember = require('./lib/db/scenarizdb')({
 				sarah: SARAH,
 				lang: lang,
@@ -194,6 +215,8 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 var exec_cron = function (program,timeout) {
 
 	if (SarahClient) {
+		if (exists('clientManager') == true) 
+			SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
 		var remember = require('./lib/db/scenarizdb')({
 				sarah: SARAH,
 				lang: lang,
@@ -209,6 +232,9 @@ var exec_cron = function (program,timeout) {
 var manage_cron = function () {
 	
 	if (SarahClient) {
+		if (exists('clientManager') == true) 
+			SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+		
 		var remember = require('./lib/db/scenarizdb')({
 				sarah: SARAH,
 				lang: lang,
