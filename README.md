@@ -223,24 +223,18 @@ Bonjour, je dois dire quelque chose au début du scénario.
 ```
 
 ### 2: Un peu plus...
-Supposons maintenant que nous voulons ajouter à notre scénario une 2ème action qui va nous dire l'heure après la phrase de début.
-
-##### A savoir:
-Le plugin 'Time' qui pourrait être appelé dans la V4 de Sarah ne peut pas être appelé dans la V3 puisque dans la V3, c'est un script.
-Donc le plugin scenariz vous propose une action compatible V3,V4 qui donne l'heure.
-
-Mais revenons à notre 2ème action.
+Supposons maintenant que nous voulons ajouter à notre scénario une 2ème action.
 
 Pour avoir plusieurs actions dans un scénario, il y a une question importante à se poser:
 - Les actions 1 puis 2,3... doivent s'enchainer en démarrant à la même heure ou ont-elles des heures/minutes différentes d'exécution?
 
 ##### Par exemple:
-- Un scénario où la 1ère action va me dire de me lever puis tout de suite après, Sarah met de la musique.
+- Un scénario où la 1ère action va me dire de me lever puis tout de suite après, Sarah va mettre de la musique.
 	- Pour ces 2 actions, l'heure d'exécution est identique, c'est uniquement l'ordre d'exécution qui change:
 		- ordre 1: la phrase de lever.
 		- ordre 2: la musique
 	- puis ensuite, plus tard, 20mn après, pour une 3ème action dans le même scénario, Sarah allume la télé pour que je vois les infos en prenant mon petit déjeuné.
-		- On voit bien là qu'il n'y a plus d'ordre puisque l'heure/minute de l'action change.
+		- On voit bien là qu'il n'y a plus d'ordre puisque les minutes de l'action change.
 
 ##### En conclusion:
 - Pour des actions qui s'enchainent à la même heure/minute:
@@ -249,27 +243,36 @@ Pour avoir plusieurs actions dans un scénario, il y a une question importante �
 - Pour des actions qui ne sont pas à la même heure, les Tags 'out.action.order' et 'out.action.tempo' ne sont pas obligatoires et sont mis par défaut à:
 	- out.action.order="1"
 	- out.action.tempo=1000
- 
-Bien ,créons maintenant notre 2ème action à la même heure que la phrase de début en utilisant l'action de scenariz pour donner l'heure.
-- out.action.key="command=setTime"
-	- setTime est l'action de scenariz qui retourne dans un callback l'heure courante.
-	- Comme pour la fonction speech, mémorisez donc cette fonction pour récupérer un callback tts d'une action d'un plugin et la vocaliser dans vos scénarios :-)
-- out.action.ttsCron="Il est %s"
-	- ttsCron est une clé qui permet de récupérer un callback tts de l'action exécutée et de le vocaliser.
-	- le %s est remplacé par le callback tts donc içi l'heure.
+
+Revenons à notre 2ème action, nous allons ajouter quelque chose que beaucoup ont: la météo.	
+J'utilise le plugin météo 1 mais je suis persuadé qu'avec toutes ces explications, vous êtes capables de récupérer et ajouter le plugin météo 2 et ses clés si vous l'avez.
+
+Allons-y :
+- Le nom du plugin météo ? facile...
+	- out.action.plug="meteo"
+- Les clés que "météo" a besoin ?
+	- La ville sous la forme out.action.zip="315550" dans son xml
+	- Le date de la météo sous la forme out.action.date="0" dans son xml
+	- Ce qui donne pour scenariz (et pour Toulouse):
+		- out.action.key="zip=315550~date=0"
+- Le plugin météo retourne la météo dans un tts callback, ce qui donnera:
+	- out.action.ttsCron="La %s."
+		- ttsCron est une clé qui permet de récupérer un callback tts de l'action exécutée et de le vocaliser.
+		- Le %s est remplacé par le callback tts donc içi la météo.
+		- Cette clé accepte du texte avant et après le %s, ce qui permet d'encapsuler un tts callback dans une phrase.
+		- Ici, en ajoutant le texte 'La' devant c'est plus sympa :-D
 - out.action.order="2"
 	- Qui défini l'ordre d'exécution pour cette 2ème action.
-- out.action.name="l'heure courante"
-	- Le Tag 'name' du nom de cette 2ème action.
-	- Ici, "l'heure courante".
+- out.action.name="La météo"
+	- Le Tag 'name' du nom de cette 2ème action. Ici, "La météo".
 - Toutes les autres clés sont identiques à la 1ère action.
 
-Il faut aussi que je modifie la 1ère action pour y ajouter:
+Il faut aussi que je modifie la 1ème action pour y ajouter:
 - out.action.tempo="5000"	
-	- Disons... 5 secondes pour le déclenchement de l'action suivante devrait être suffisant pour que Sarah dise la 1ère phrase.
+	- Disons... 5 secondes pour vocaliser le texte de l'action 1 et ensuite déclencher l'action météo.
 - out.action.order="1"	
 	- Pour la forme puisque c'est déjà la valeur par défaut pour cette règle déjà passée.
-
+	
 Ce qui donne dans le scenariz.xml:
 ```xml
  <rule id="rulescenariz">
@@ -283,7 +286,7 @@ Ce qui donne dans le scenariz.xml:
 		
 		<!-- Clé de création du scénario Démonstration -->
 		<item>Début de la démonstration<tag>out.action.tempo="5000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
-		<item>L'heure dans la démonstration<tag>out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Il est %s"</tag></item>
+		<item>La météo dans la démonstration<tag>out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s"</tag></item>
 ```		
 
 Ca va ?, pas de surprises ? :-)
@@ -300,35 +303,32 @@ SARAH fais nous une petite démo
 Sarah exécute:
 ```text
 Bonjour, je dois dire quelque chose au début du scénario.
-Il est 20h44
+La météo: Toulouse: ce soir, Averses, température entre 18 et 13 degrés
 ```
 
 ### 3: Encore un peu plus...
-Pour compléter ce mode de création de scénario, nous allons y ajouter une 3ème action.
+Pour compléter ce mode de création de scénario, nous allons y ajouter une 3ème action qui donne l'heure après la météo.
 
-Pour se faire, nous allons utiliser quelque chose que beaucoup ont, la météo.
+##### A savoir:
+Le plugin 'Time' qui pourrait être appelé dans la V4 de Sarah ne peut pas être appelé dans la V3 puisque dans la V3, c'est un script.
+Donc le plugin scenariz vous propose une action compatible V3,V4 qui retourne l'heure dans un callback tts.
 
-J'utilise le plugin météo 1 mais je suis persuadé qu'avec toutes ces explications, vous êtes capables de récupérer et ajouter le plugin météo 2 et ses clés si vous l'avez.
-
-Allons-y :
-- Le nom du plugin météo ? facile...
-	- out.action.plug="meteo"
-- Les clés que "météo" a besoin ?
-	- La vile sous la forme out.action.zip
-	- Le moment sous la forme out.action.date
-	- Ce qui donne pour scenariz (et pour Toulouse):
-		- out.action.key="zip=315550~date=0"
-- Le plugin météo retourne la météo dans un tts callback, ce qui donnera:
-	- out.action.ttsCron="La %s."
-		- En ajoutant 'La' devant c'est plus sympa :-D
+Créons notre 3ème action en utilisant donc l'action de scenariz qui donne l'heure.
+- out.action.key="command=setTime"
+	- setTime est l'action de scenariz qui retourne dans un callback l'heure courante.
+	- Comme pour la fonction speech, mémorisez donc cette fonction pour récupérer un callback tts de l'action d'un plugin et la vocaliser dans vos scénarios :-)
+- out.action.ttsCron="Il est %s"
+	- Le %s est remplacé par le callback tts donc içi l'heure.
 - out.action.order="3"
 	- Qui défini l'ordre d'exécution pour cette 3ème action.
-- out.action.name="La météo"
+- out.action.name="l'heure courante"
+	- Le Tag 'name' du nom de cette 3ème action. Ici, "l'heure courante".
+- Toutes les autres clés sont identiques aux autres actions.
 
 Il faut aussi que je modifie la 2ème action pour y ajouter:
-- out.action.tempo="3000"	
-	- Disons... 3 secondes pour le déclenchement de l'action météo.
-	
+- out.action.tempo="10000"	
+	- Disons... 10 secondes pour que Sarah vocalise la météo avant d'exécuter cette 3ème action.
+
 Ce qui donne dans le scenariz.xml:
 ```xml
  <rule id="rulescenariz">
@@ -342,10 +342,25 @@ Ce qui donne dans le scenariz.xml:
 		
 		<!-- Clé de création du scénario Démonstration -->
 		<item>Début de la démonstration<tag>out.action.tempo="5000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
-		<item>L'heure dans la démonstration<tag>out.action.tempo="3000";out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Il est %s"</tag></item>
-		<item>La météo dans la démonstration<tag>out.action.order="3";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s"</tag></item>
+		<item>La météo dans la démonstration<tag>out.action.tempo="10000";out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s"</tag></item>
+		<item>L'heure dans la démonstration<tag>out.action.order="3";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Il est %s"</tag></item>
 ```		
 
+Jouons les 2 règles
+- "La météo dans la démonstration" pour la modifier.
+- "L'heure dans la démonstration" pour la créer.
+
+Et on essaye...
+- Dites:
+```text
+SARAH fais nous une petite démo
+```
+Sarah exécute:
+```text
+Bonjour, je dois dire quelque chose au début du scénario.
+La météo: Toulouse: ce soir, Averses, température entre 18 et 13 degrés
+Il est 20 heure 15
+```
 		
 		
 		
