@@ -24,7 +24,7 @@ Permet de créer des scénarios avec toutes les actions des plugins installés d
 - Gestion et modification des scénarios par dialogue en le sélectionnant vocalement.
 	- Etat du scénario.
 		- Si il est actif ou inactif.
-		- Son heure et le(s) jour(s) de la semaine de son exécution.
+		- Heure et jour(s) de la semaine de son exécution.
 	- Activation/Désativation d'un scénario.
 	- Modification de l'heure et des minutes vocalement.
 	- Modification des jours d'exécution vocalement
@@ -44,11 +44,11 @@ Permet de créer des scénarios avec toutes les actions des plugins installés d
 
 ### sarah.js
 Le plugin utilise la fonction askme de Sarah pour la gestion vocale des scénarios. Cette fonction a été corrigée et améliorée pour scenariz.
-- Localisation du fichier sarah.js de Sarah:
+- Localisation du fichier sarah.js d'origine de Sarah:
 	- Pour la V3: SARAH\script\manager
 	- Pour la V4: SARAH\server\app\server
-- Copiez le fichier sarah.js en sarah.ori
-- Copiez/collez (remplacez) le fichier SARAH\scenariz\install\'version'\sarah.js dans son répertoire de localisation.
+- Copiez le fichier sarah.js d'origine en sarah.ori
+- Copiez/collez le fichier SARAH\scenariz\install\'version'\sarah.js dans son répertoire de localisation.
  
 ##### Important:
 Si vous utilisez la fonction askme dans d'autres plugins, vous devrez modifier tous les appels à la fonction end() de la fonction askme() de vos plugins par end(true).
@@ -58,7 +58,6 @@ Existant:
  SARAH.askme("message", {
 	'regle' : 'tag1',
 	'regle' : 'tag2'
-	
 	}, 1000, function (answer, end) {
 		switch (answer) {
 		case 'tag1':
@@ -71,13 +70,11 @@ Existant:
 		}
 	});
 ```
-
 A modifier par:
 ```javascript
  SARAH.askme("message", {
 	'regle' : 'tag1',
 	'regle' : 'tag2'
-	
 	}, 1000, function (answer, end) {
 		switch (answer) {
 		case 'tag1':
@@ -90,7 +87,6 @@ A modifier par:
 		}
 	});
 ```
-
 
 ## Créer un scénario
 - La création d'un scénario se fait dans le fichier scenariz.xml.
@@ -101,12 +97,12 @@ A modifier par:
 Supposons un scénario qui commence par faire dire à Sarah une petite phrase.
 
 Il nous faut au minimum:
-	- Un nom pour le scenario, je vais l'appeler "Démonstration".
-	- Un nom pour l'action dans le scénario, je vais l'appeler "Phrase de début".
-	- Une séquence de definition de l'heure, des minutes et des jours de la semaine pour l'action.
-	- Le plugin Sarah qui exécute l'action.
-	- Les tags (clés) de l'action du plugin Sarah.
-		- Toutes ces valeurs sont en fait les tags de la règle (action) dans le xml du plugins lorsque vous l'exécutez.
+- Un nom pour le scenario, je vais l'appeler "Démonstration".
+- Un nom pour l'action dans le scénario, je vais l'appeler "Phrase de début".
+- Une séquence de definition de l'heure, des minutes et des jours de la semaine pour l'action.
+- Le plugin Sarah qui exécute l'action.
+- Les tags (clés) de l'action du plugin Sarah.
+	- Toutes ces valeurs sont en fait les tags de la règle (action) dans le xml du plugins lorsque vous l'exécutez.
 
 Traduisons ça dans un language qui nous convient, c'est à dire des tags pour la règle de l'action dans le scenariz.xml:
 - out.action.program="Démonstration"
@@ -124,19 +120,22 @@ Traduisons ça dans un language qui nous convient, c'est à dire des tags pour l
 	- Dans le xml du plugin scenariz (clé out.action.plug jsute au dessus), nous aurions pu avoir une règle qui aurait eu ces tags:
 		- out.action.command="speech";out.action.text="c'est la phrase de début du scénario de démonstration."
 		- On notera que cette règle n'existe pas bien qu'elle aurait pû. Pourquoi ? Parce qu'il n'est pas necessaire d'avoir une règle dans un xml coté client. Ce qui compte, c'est son exécution dans le js du plugin, coté serveur.
-		- Cette action est mise à disposition par le plugin scenariz pour vocaliser une phrase dans vos scenarios.
+		- Mémorisez donc cette règle pour faire dire une phrase à Sarah dans vos scénario :-)
 		
 Il faut maintenant écrire une règle avec une phrase à vocaliser en y incluant ces tags:
 ```xml
 <item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=c'est la phrase de début du scénario de démonstration."</tag></item>
 ```				
 Nous pouvons voir une clé qui n'a pas eu d'explication, la clé out.action.command="ScenarizCron":
-		- Cette clé est la clé de création d'une action de scénario dans le plugin scenariz. Elle doit toujours être présente.
+		- Cette clé est 'LA' clé de création d'une action de scénario dans le plugin scenariz. Elle doit toujours être présente.
 		
 Il nous reste maintenant à passer cette règle pour l'ajouter dans la base de scenariz.
-Dites: SARAH, Début de la démonstration
+- Dites: 
+```text
+SARAH, Début de la démonstration
+```
 
-Voilà qui est fait.
+
 	
 
 
