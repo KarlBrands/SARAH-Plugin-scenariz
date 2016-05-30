@@ -231,10 +231,10 @@ Donc le plugin scenariz vous propose une action compatible V3,V4 qui donne l'heu
 
 Mais revenons à notre 2ème action.
 
-Pour avoir plusieurs actions dans une scénario, il y a une question importante à se poser:
-- Les actions 1 puis 2,3... doivent s'enchainer en démarrant à la même heure ou ont-elles des heures/minutes d'exécution différentes ?
+Pour avoir plusieurs actions dans un scénario, il y a une question importante à se poser:
+- Les actions 1 puis 2,3... doivent s'enchainer en démarrant à la même heure ou ont-elles des heures/minutes différentes d'exécution?
 
-Par exemple:
+##### Par exemple:
 - Un scénario où la 1ère action va me dire de me lever puis tout de suite après, Sarah met de la musique.
 	- Pour ces 2 actions, l'heure d'exécution est identique, c'est uniquement l'ordre d'exécution qui change:
 		- ordre 1: la phrase de lever.
@@ -242,7 +242,7 @@ Par exemple:
 	- puis ensuite, plus tard, 20mn après, pour une 3ème action dans le même scénario, Sarah allume la télé pour que je vois les infos en prenant mon petit déjeuné.
 		- On voit bien là qu'il n'y a plus d'ordre puisque l'heure/minute de l'action change.
 
-En conclusion:
+##### En conclusion:
 - Pour des actions qui s'enchainent à la même heure/minute:
 	- On ajoutera un Tag 'out.action.order' dans chaque action pour l'ordre d'exécution.
 	- On ajoutera aussi un délais de temporisation par un Tag 'out.action.tempo' (en milli-secondes) pour exécuter l'action suivante.
@@ -259,10 +259,14 @@ Bien ,créons maintenant notre 2ème action à la même heure que la phrase de d
 	- le %s est remplacé par le callback tts donc içi l'heure.
 - out.action.order="2"
 	- Qui défini l'ordre d'exécution pour cette 2ème action.
+- out.action.name="l'heure courante"
+	- Le Tag 'name' du nom de cette 2ème action.
+	- Ici, "l'heure courante".
+- Toutes les autres clés sont identiques à la 1ère action.
 
 Il faut aussi que je modifie la 1ère action pour y ajouter:
-- out.action.tempo="3000"	
-	- Disons... 3 secondes pour le déclenchement de l'action suivante.
+- out.action.tempo="5000"	
+	- Disons... 5 secondes pour le déclenchement de l'action suivante devrait être suffisant pour que Sarah dise la 1ère phrase.
 - out.action.order="1"	
 	- Pour la forme puisque c'est déjà la valeur par défaut pour cette règle déjà passée.
 
@@ -278,7 +282,7 @@ Ce qui donne dans le scenariz.xml:
 		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
 		<!-- Clé de création du scénario Démonstration -->
-		<item>Début de la démonstration<tag>out.action.tempo="3000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
+		<item>Début de la démonstration<tag>out.action.tempo="5000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
 		<item>L'heure dans la démonstration<tag>out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Il est %s"</tag></item>
 ```		
 
@@ -288,13 +292,59 @@ Et bien jouons ces 2 règles !
 - La 1ère pour la modifier.
 - La 2ème pour la créer.
 
+Ok ? et bien essayez !!
+- Dites:
+```text
+SARAH fais nous une petite démo
+```
+Sarah exécute:
+```text
+Bonjour, je dois dire quelque chose au début du scénario.
+Il est 20h44
+```
 
+### 3: Encore un peu plus...
+Pour compléter ce mode de création de scénario, nous allons y ajouter une 3ème action.
 
+Pour se faire, nous allons utiliser quelque chose que beaucoup ont, la météo.
 
+J'utilise le plugin météo 1 mais je suis persuadé qu'avec toutes ces explications, vous êtes capables de récupérer et ajouter le plugin météo 2 et ses clés si vous l'avez.
 
+Allons-y :
+- Le nom du plugin météo ? facile...
+	- out.action.plug="meteo"
+- Les clés que "météo" a besoin ?
+	- La vile sous la forme out.action.zip
+	- Le moment sous la forme out.action.date
+	- Ce qui donne pour scenariz (et pour Toulouse):
+		- out.action.key="zip=315550~date=0"
+- Le plugin météo retourne la météo dans un tts callback, ce qui donnera:
+	- out.action.ttsCron="La %s."
+		- En ajoutant 'La' devant c'est plus sympa :-D
+- out.action.order="3"
+	- Qui défini l'ordre d'exécution pour cette 3ème action.
+- out.action.name="La météo"
 
+Il faut aussi que je modifie la 2ème action pour y ajouter:
+- out.action.tempo="3000"	
+	- Disons... 3 secondes pour le déclenchement de l'action météo.
 	
-	
+Ce qui donne dans le scenariz.xml:
+```xml
+ <rule id="rulescenariz">
+    <tag>out.action=new Object()</tag>
+	<item>Sarah</item>
+	 
+	<one-of>
+		<!-- Gestion et modification des programmes, les programmes doivent exister-->		
+		<item>gestion des programmes<tag>out.action.command="ManageCron"</tag></item>
+		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
+		
+		<!-- Clé de création du scénario Démonstration -->
+		<item>Début de la démonstration<tag>out.action.tempo="5000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
+		<item>L'heure dans la démonstration<tag>out.action.tempo="3000";out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Il est %s"</tag></item>
+		<item>La météo dans la démonstration<tag>out.action.order="3";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s"</tag></item>
+```		
 
 		
 		
