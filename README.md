@@ -90,7 +90,7 @@ A modifier par:
 	});
 ```
 
-## Créer un scénario
+## 1: Créer un scénario
 - La création d'un scénario se fait dans le fichier scenariz.xml.
 - Chaque action d'un scénario est une règle à définir.
 - Après avoir créé une règle du scénario, il faut la vocaliser pour l'ajouter dans la base de données de scenariz. Cette action n'est à faire qu'une seule fois.
@@ -140,7 +140,7 @@ Il faut maintenant écrire une règle avec une phrase à vocaliser "Début de la
 		<item>gestion des programmes<tag>out.action.command="ManageCron"</tag></item>
 		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
-		<!-- ICI -->
+		<!-- Clé de création du scénario Démonstration -->
 		<item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=c'est la phrase de début du scénario de démonstration."</tag></item>
 ```				
 Nous pouvons voir une clé qui n'a pas eu d'explication, la clé out.action.command="ScenarizCron":
@@ -157,10 +157,11 @@ Phrase de début enregistré
 ```
 Vous venez de créer un scénario qui s'éxécute tous les jours à 15h30.
 
-### Continuons simple	
+### Modification simple	
 Nous allons maintenant modifier la phrase et l'heure de l'action dans notre scénario parce que nous nous sommes trompé (ben quoi, ça arrive...).
 - Nouvelle heure: 20h15
 - Nouvelle phrase: Bonjour, je dois dire quelque chose au début du scénario.
+
 Pour modifier une action d'un scénario, modifier les valeurs des tags associés directement dans la règle et rejouez la règle.
 ```xml	
 <!-- ICI -->
@@ -176,7 +177,47 @@ Phrase de début remplacé
 ```
 Vous venez de modifier l'action du scénario.
 
+### Si on exécutait ce petit scénario ?
+Nous venons de créer un scénario à exécution programmé (tous les jours à 20h15). Néanmoins, un scénario peut être à exécution programmé ou à exécution immédiate par règle sans modification.
 
+Il suffit juste de créer une règle dans le scenariz.xml qui exécute ce scénario
+Il nous faut:
+- Une règle à jouer "fais nous une petite démo".
+- Un Tag out.action.command="ExecCron" qui est 'LA' clé d'exécution d'un scénario.
+	- Obligatoire
+- Un Tag out.action.program="Démonstration" pour donner le nom du scénario.
+	- Obligatoire avec le nom du scénario
+	
+Ce qui donne dans le scenariz.xml:
+```xml
+ <rule id="rulescenariz">
+    <tag>out.action=new Object()</tag>
+	<item>Sarah</item>
+	 
+	<one-of>
+		<!-- Gestion et modification des programmes, les programmes doivent exister-->		
+		<item>gestion des programmes<tag>out.action.command="ManageCron"</tag></item>
+		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
+		
+		<!-- Clé de création du scénario Démonstration -->
+		<item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
+
+		<!-- Scénario Démonstration -->
+		<item>fais nous une petite démo<tag>out.action.command="ExecCron";out.action.program="Démonstration"</tag></item>
+```		
+Il nous reste maintenant à jouer ce scénario.
+- Dites: 
+```text
+SARAH fais nous une petite démo
+```
+Sarah exécute:
+```text
+Bonjour, je dois dire quelque chose au début du scénario.
+```
+
+
+
+ 
 		
 		
 		
