@@ -1,30 +1,44 @@
 /*
 	Author: Stéphane Bascher
-	Make Scenarios for Sarah
+	Making Scenarios for Sarah
 	
 	Date: April-04-2015
 	Version: 1.0: Creation of the module
 	Version: 2.0: Adding immediate/time-out execution... wow !!
 				  speech action, to have the possibility to vocalize a simple tts in a scenario.
+	
+	Date: May-28-2015
+	Version 3.0: New version for SARAH V3 and V4
 */
 
 
 // Global variables
-var SARAH
-	 , msg
-	 , debug
-	 , lang
-	 , SarahClient
-	 , fs = require('fs')
-	 , moment = require('./lib/moment/moment')
-	 , ini = require('./lib/ini/ini');
+var Sarah
+	, logger
+	, msg
+	, debug
+	, lang
+	, SarahClient
+	, fs = require('fs')
+	, moment = require('./lib/moment/moment')
+	, ini = require('./lib/ini/ini');
 	 
 moment.locale('fr');	
 	
 // Init Sarah	 
-exports.init = function(sarah){
-  SARAH = sarah;
-  initScenariz(SARAH);
+exports.init = function(_SARAH){
+	
+	var winston = require('./lib/winston');
+	logger = new (winston.Logger)({
+		transports: [
+			new (winston.transports.Console)()
+		]
+	});
+	
+	getVersion(_SARAH, function () { 
+		initScenariz(Sarah);
+	});
+	
 }
 
 
@@ -34,14 +48,15 @@ exports.cron = function(callback, task){
 	// It's time to check if a thing is to do
 	if (SarahClient) {
 		if (exists('clientManager') == true) 
-			SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+			Sarah.obj.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
 		
 		var remember = require('./lib/db/scenarizdb')({
-			sarah: SARAH,
+			sarah: Sarah.obj,
+			config: (Sarah.version == 4) ? Config : null,
 			lang: lang,
 			sarahClient: SarahClient,
 			debug: debug});
-		remember.cron();	
+		remember.cron();	 
 	} else 
 		console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
 	
@@ -53,23 +68,27 @@ exports.cron = function(callback, task){
 // Init Senariz	
 var initScenariz = function(SARAH, callback) {
 	
-	var config = SARAH.ConfigManager.getConfig(),
-	    multiRoom = config.modules.scenariz['multiRoom'] || 'false';
-	    
-	debug  = config.modules.scenariz['debug'] || 'false';
-	lang = config.modules.scenariz['language'] || 'FR_fr';
+	var multiRoom = getConfig().modules.scenariz.multiRoom || false;
+	
+	debug  = getConfig().modules.scenariz.debug || false;
+	lang = getConfig().modules.scenariz.language || 'FR_fr';
 
-	if (multiRoom.toLowerCase() == 'true') {
+	if (multiRoom == true) {
 		// Search client name
 		path = require('path'); 
-		var inifile = path.resolve('%CD%', './custom.ini').replace('\\%CD%', '');
-		SarahClient = ini.parse(fs.readFileSync(inifile, 'utf-8')).common.client;
+		if (Sarah.version == 3) {
+			var inifile = path.resolve('%CD%', './custom.ini').replace('\\%CD%', '');
+			SarahClient = ini.parse(fs.readFileSync(inifile, 'utf-8')).common.client;
+		} else {
+			var inifile = path.resolve('%CD%', './client/custom.ini').replace('\\%CD%', '');
+			SarahClient = ini.parse(fs.readFileSync(inifile, 'utf-8')).bot.id;
+		}
 		if (SarahClient) {
-			if (debug == 'true') console.log("Scenariz Cron client: " + SarahClient);
+			if (debug == true) logger.info("Scenariz Cron client: %s", SarahClient);
 		} else 
-			console.log('Scenariz Cron Error: Unable to retrieve the client name from ini');
+			logger.error('Scenariz Cron: Unable to retrieve the client name from ini');
 	} else 
-		SarahClient = config.modules.scenariz['defaultRoom'] || 'SARAH1';
+		SarahClient = getConfig().modules.scenariz.defaultRoom || 'SARAH1';
 	
 	// callback if required
 	if (callback) callback();
@@ -85,38 +104,61 @@ exports.action = function(data, callback, config, SARAH){
 	
 	// localized messages
 	msg = require('./lib/lang/' + lang);
-	if (debug == 'true') console.log(msg.localized('debug'));
+	if (debug == true) logger.info(msg.localized('debug'));
 	
 	// table of actions
 	var tblActions = {
-		// set Time, specific for Cron
+		// Speech the Time, specific for Cron
 		setTime: function() {setTime(callback);return},
-		// Speech, specific for Cron
+		// Speech à TTS, specific for Cron
 		speech: function() {callback({'tts': data.text});return},
-		// To remove a cron - careful, only one line!
+		// To remove only one cron - careful, only one line!
 		remmoveCron: function() {remove_cron(data.program,data.name)},
-		// To remove ALL crons
+		// To remove ALL programs
 		RemoveAllCron: function() {remove_AllCron()},
 		// Save Program
 		ScenarizCron: function() {set_cron(data.program,data.name,data.exec,data.order,data.tempo,data.plug, data.start, data.key, data.ttsCron, data.autodestroy, data.mute, data.fifo, data.speechStartOnRecord, lang, data.clients)},
-		// Exec Program, Immediate execution, no at specific date
+		// Exec Program, Immediate execution, not at specific date/time
 		ExecCron: function() {exec_cron(data.program,((data.timeout)?parseInt(data.timeout):0))},
 		// Manage cron
 		ManageCron: function() {manage_cron()}
 	};
 	
-	if (debug == 'true') console.log("data.command: " + data.command);
+	if (debug == true) logger.info("data.command: %s", data.command);
+	
 	tblActions[data.command]();
 	
 	// return fucking callback
-	callback({});
+	if (data.command != 'setTime' && data.command != 'speech')
+		callback({});
+}
+
+
+
+var getVersion = function (_SARAH, callback) {
+	if (typeof Config === "undefined" ) {
+		logger.info("Sarah version 3");
+		Sarah = {version: 3, obj: _SARAH};
+	} else  {
+		logger.info("Sarah version 4");
+		Sarah = {version: 4, obj: SARAH};
+	}
+	callback ();
+}
+
+
+var getConfig = function(value){
+  
+	var conf = (Sarah.version == 4) ? Config : Sarah.obj.ConfigManager.getConfig();
+	if (value)
+		 conf = conf[value];
+	return conf;
 }
 
 
 var exists = function(cmd){
 
-  var config = SARAH.ConfigManager.getConfig();
-  if (config.modules[cmd])
+  if (getConfig().modules[cmd])
     return true;
 
   return false;
@@ -135,10 +177,11 @@ var setTime = function(callback) {
 var remove_cron = function (program, name) {
 	
 	if (exists('clientManager') == true) 
-		SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+		Sarah.obj.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
 	
 	var remember = require('./lib/db/scenarizdb')({
-			sarah: SARAH,
+			sarah: Sarah.obj,
+			config: (Sarah.version == 4) ? Config : null,
 			lang: lang,
 			sarahClient: SarahClient,
 			debug: debug});
@@ -150,10 +193,11 @@ var remove_cron = function (program, name) {
 var remove_AllCron = function () {
 	
 	if (exists('clientManager') == true) 
-		SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+		Sarah.obj.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
 	
 	var remember = require('./lib/db/scenarizdb')({
-			sarah: SARAH,
+			sarah: Sarah.obj,
+			config: (Sarah.version == 4) ? Config : null,
 			lang: lang,
 			sarahClient: SarahClient,
 			debug: debug});
@@ -170,7 +214,7 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 		days = tokenize.pop();
 	
 	if (!days || !hour) {
-		SARAH.speak ( msg.err_localized('cron_no_date'));
+		Sarah.obj.speak ( msg.err_localized('cron_no_date'));
 		return;
 	}
 	
@@ -179,7 +223,7 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 	}
 	
 	if (!plugin) {
-		SARAH.speak ( msg.err_localized('cron_no_plugin'));
+		Sarah.obj.speak ( msg.err_localized('cron_no_plugin'));
 		return;
 	}
 	
@@ -195,19 +239,21 @@ var set_cron = function (program, name, exec, order, tempo, plugin, start, key, 
 	mute = ((mute) ? "true" : "false" );
 	speechStartOnRecord = ((speechStartOnRecord) ? speechStartOnRecord : "false" );
 	
-    if (debug == 'true') console.log("hour: " + hour + " days: " + days);	
+    if (debug == true) logger.info("hour: %s days: %s",hour,days);	
 	
 	if (SarahClient) {
 		if (exists('clientManager') == true) 
-			SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+			Sarah.obj.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+		
 		var remember = require('./lib/db/scenarizdb')({
-				sarah: SARAH,
+				sarah: Sarah.obj,
+				config: (Sarah.version == 4) ? Config : null,
 				lang: lang,
 				sarahClient: SarahClient,
 				debug: debug});
 		remember.save(program,plugin,name,order,tempo,exec,key,tts,autodestroy,mute,fifo,speechStartOnRecord,hour,days,Clients);
 	} else 
-		console.log('Scenariz Cron Error: No client name');
+		logger.error('Scenariz Cron: No client name');
 	
 }
 
@@ -216,15 +262,17 @@ var exec_cron = function (program,timeout) {
 
 	if (SarahClient) {
 		if (exists('clientManager') == true) 
-			SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+			Sarah.obj.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+		
 		var remember = require('./lib/db/scenarizdb')({
-				sarah: SARAH,
+				sarah: Sarah.obj,
+				config: (Sarah.version == 4) ? Config : null,
 				lang: lang,
 				sarahClient: SarahClient,
 				debug: debug});
 		remember.exec(program,timeout);
 	} else 
-		console.log('Scenariz Cron Error: No client name');
+		logger.error('Scenariz Cron: No client name');
 
 }
 
@@ -233,10 +281,11 @@ var manage_cron = function () {
 	
 	if (SarahClient) {
 		if (exists('clientManager') == true) 
-			SARAH.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
+			Sarah.obj.trigger('clientManager',{key:'unwatch', files: [__dirname + '/lib/db/Scenariz.db', __dirname + '/lib/db/ScenariznoCron.db']});
 		
 		var remember = require('./lib/db/scenarizdb')({
-				sarah: SARAH,
+				sarah: Sarah.obj,
+				config: (Sarah.version == 4) ? Config : null,
 				lang: lang,
 				sarahClient: SarahClient,
 				debug: debug});

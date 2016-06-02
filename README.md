@@ -282,11 +282,8 @@ Pour avoir plusieurs actions dans un scénario, il y a une **question importante
 ##### En résumé:
 - Pour des actions qui s'enchaînent à la même heure/minute:
 	- On ajoutera un tag `out.action.order` dans chaque action avec l'ordre d'exécution.
-	- On ajoutera aussi un délais de temporisation par un tag `out.action.tempo` (en milli-secondes) pour exécuter l'action suivante.
-- Pour des actions qui ne sont pas à la même heure, les tags `out.action.order` et `out.action.tempo` ne sont pas obligatoires et sont mis par défaut à:
-	- `out.action.order`="1"
-	- `out.action.tempo`="1000"
-
+- Pour des actions qui ne sont pas à la même heure, le tag `out.action.order` n'est pas obligatoire. 
+	- il est ajouté automatiqument avec la valeur par défaut `out.action.order`="1"
 Revenons à notre 2ème action, nous allons ajouter quelque chose que beaucoup ont: `la météo`.	
 
 J'utilise le plugin `météo 1` mais je suis persuadé qu'avec toutes ces explications, vous êtes capable de récupérer et d'ajouter le plugin `météo 2` et ses clés si vous l'avez.
@@ -312,8 +309,6 @@ Définition des clés :
 - Toutes les autres clés sont identiques à la 1ère action.
 
 **Sans oublier** qu'il faut aussi modifier la 1ème action pour y ajouter:
-- `out.action.tempo`="5000"	
-	- Disons... 5 secondes pour vocaliser le texte de l'action 1 et ensuite déclencher l'action 2 météo.
 - `out.action.order`="1"	
 	- Pour la forme puisque c'est déjà la valeur par défaut pour cette règle.
 	
@@ -329,7 +324,7 @@ Ce qui donne dans le `scenariz.xml`:
 		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
 		<!-- Clé de création du scénario Démonstration -->
-		<item>Début de la démonstration<tag>out.action.tempo="5000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
+		<item>Début de la démonstration<tag>out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
 		<item>La météo dans la démonstration<tag>out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s"</tag></item>
 ```		
 
@@ -370,10 +365,6 @@ Nous pouvons donc créer une 3ème action en utilisant cette commande:
 	- Ce tag est le nom de cette 3ème action.
 - Toutes les autres clés sont identiques aux autres actions.
 
-Il faut aussi que je modifie la 2ème action pour y ajouter:
-- `out.action.tempo`="10000"	
-	- Disons... 10 secondes pour que Sarah vocalise la météo avant d'exécuter cette 3ème action. Ca devrait suffire.
-
 Ce qui donne dans le `scenariz.xml`:
 ```xml
  <rule id="rulescenariz">
@@ -386,8 +377,8 @@ Ce qui donne dans le `scenariz.xml`:
 		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
 		<!-- Clé de création du scénario Démonstration -->
-		<item>Début de la démonstration<tag>out.action.tempo="5000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
-		<item>La météo dans la démonstration<tag>out.action.tempo="10000";out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s"</tag></item>
+		<item>Début de la démonstration<tag>out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
+		<item>La météo dans la démonstration<tag>out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s"</tag></item>
 		<item>L'heure dans la démonstration<tag>out.action.order="3";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Il est %s"</tag></item>
 ```		
 
@@ -440,7 +431,7 @@ Nous pouvons maintenant refaire le scénario avec 2 règles comme ci-dessous:
 		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
 		<!-- Clé de création du scénario Démonstration -->
-		<item>L'heure dans la démonstration<tag>out.action.tempo="5000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Bonjour, il est %s, quelques infos."</tag></item>
+		<item>L'heure dans la démonstration<tag>out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Bonjour, il est %s, quelques infos."</tag></item>
 		<item>La météo dans la démonstration<tag>out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s. Bonne journée."</tag></item>
 ```	
 Vous pouvez rejouer les règles de créations et exécuter le scénario.
@@ -487,7 +478,7 @@ Détail de la règle de création de l'action 3 `La musique dans la démonstrati
 		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
 		<!-- Clé de création du scénario Démonstration -->
-		<item>L'heure dans la démonstration<tag>out.action.tempo="5000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Bonjour, il est %s, quelques infos."</tag></item>
+		<item>L'heure dans la démonstration<tag>out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Bonjour, il est %s, quelques infos."</tag></item>
 		<item>La météo dans la démonstration<tag>out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s"</tag></item>
 		<item>La musique dans la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La musique";out.action.clients="SARAH1";out.action.plug="sonosPlayer";out.action.start="15:40-1111111";out.action.key="command=set_media~type=favorite~title=Supertramp";out.action.ttsCron="je met un peu de musique."</tag></item>
 ```		
@@ -520,7 +511,7 @@ Détail de la modification des règles de créations avec l'ajout de `out.action
 		<item>Supprime tous les programmes<tag>out.action.command="RemoveAllCron"</tag></item>
 		
 		<!-- Clé de création du scénario Démonstration -->
-		<item>L'heure dans la démonstration<tag>out.action.exec="false";out.action.tempo="5000";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Bonjour, il est %s, quelques infos."</tag></item>
+		<item>L'heure dans la démonstration<tag>out.action.exec="false";out.action.order="1";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="l'heure courante";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="15:30-1111111";out.action.key="command=setTime";out.action.ttsCron="Bonjour, il est %s, quelques infos."</tag></item>
 		<item>La météo dans la démonstration<tag>out.action.exec="false";out.action.order="2";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La météo";out.action.clients="SARAH1";out.action.plug="meteo";out.action.start="15:30-1111111";out.action.key="zip=315550~date=0";out.action.ttsCron="La %s"</tag></item>
 		<item>La musique dans la démonstration<tag>out.action.exec="false";out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="La musique";out.action.clients="SARAH1";out.action.plug="sonosPlayer";out.action.start="15:40-1111111";out.action.key="command=set_media~type=favorite~title=Supertramp";out.action.ttsCron="je met un peu de musique."</tag></item>
 ```		
@@ -528,6 +519,14 @@ Rejouez les règles de création pour les modifier!
 
 ### Tags spéciaux pour la création d'actions
 Il existe quelques tags qu'il est possible d'ajouter à la règle de création d'une action.
+
+##### out.action.tempo
+Utilisé pour spécifier un délais (en milli-secondes) pour exécuter l'action suivante.
+
+Par exemple le tag `out.action.clients`="10000" défini sur une action d'un scénario créée 10 secondes de temporisation avant d'exécuter la règle suivante.
+
+- `out.action.clients`="valeur"
+	- Valeur par défaut: "1000"
 
 ##### out.action.clients
 Utilisé pour préciser le nom du client ou dans le cas d'un multi-room avec une base de données scenariz partagée.
@@ -724,9 +723,6 @@ Ne modifiez cette valeur que pour des cas de figures très spécifiques. Une val
 
 
 ## Problèmes connus
-- Un petit problème ne permet pas de créer 2 actions du plugin `scenariz` l'une après l'autre dans un scénario.
-	- Par exemple, une action `speech` puis une action `setTime`.
-	- Définissez toujours une action d'un autre plugin entre 2 actions `scenariz`.
 - Pour Sarah V4:
 	- La fonction askme de la V3 fonctionne mieux que la V4 du fait du `listen false` automatique ajouté dans la V4 pendant un dialogue:
 		- Un bug dû à cet ajout survient dans les askme récursifs (nombreux dans ce plugin) avec des SARAH.speak en plus dans les réponses, il semble que le `listen false` se perd et ne traite pas convenablement ces cas de figures complexes.
