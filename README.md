@@ -533,7 +533,6 @@ Il existe quelques tags qu'il est possible d'ajouter à la règle de création d
 Utilisé pour préciser le nom du client ou dans le cas d'un multi-room avec une base de données scenariz partagée.
 
 L'action ne sera exécutée **QUE** pour les clients définis dans ce tag séparés par une virgule (,).
-
 - `out.action.clients`="CLIENT1,CLIENT2"
 	- Valeur par défaut: SARAH1
 	- Autre valeur possible:
@@ -554,7 +553,7 @@ Utilisé par exemple pour une exécution [différé en précisant le jour et l'h
 ##### out.action.mute
 Permet de ne pas avoir le message de validation de Sarah `action enregistrée` lorsqu'une action est créée.
 
-Utile par exemple si l'action est créer depuis un autre plugin par un SARAH.call en mode silence:
+Utile par exemple si l'action est créer depuis un autre plugin par un SARAH.call en mode silence.
 - `out.action.mute`="true"
 	- Aucun message de validation.
 - `out.action.mute`="false"
@@ -562,7 +561,7 @@ Utile par exemple si l'action est créer depuis un autre plugin par un SARAH.cal
 	- Message de validation.
 
 ##### out.action.fifo
-Ce tag est utilisé pour une action de scénario destinée à n'être exécutée qu'une seule fois dans le cas de plusieurs clients définis dans le tag `out.action.clients` et une base de données scenariz partagée. L'action sera exécutée par le 1er client à la lancer puis elle sera supprimée de la base de données:
+Ce tag est utilisé pour une action de scénario destinée à n'être exécutée qu'une seule fois dans le cas de plusieurs clients définis dans le tag `out.action.clients` et une base de données scenariz partagée. L'action sera exécutée par le 1er client à la lancer puis elle sera supprimée de la base de données.
 - `out.action.fifo`="true"
 	- exécutée par le 1er client à la lancer puis détruite.
 - `out.action.fifo`="false"
@@ -587,7 +586,7 @@ SARAH fais nous une petite démo dans 10 minutes.
 // Retour de Sarah
 D'accord, j'exécute le scénario dans 10 minutes.
 ```
-Toutes les plages horaires n'y sont pas. Retrouvez ces règles de différé simple dans le `scenariz.xml` en bas du fichier et modifiez-les à votre convenance.
+Toutes les plages horaires n'y sont pas. Retrouvez ces règles de différé simple dans le `scenariz.xml` en bas du fichier et modifiez-les ou ajoutez-en à votre convenance.
 
 
 ### Différé en précisant le jour et l'heure
@@ -644,7 +643,7 @@ Elle permet de:
 ##### Mémo:
 Il est très important de se rappeler que dans pratiquement tous les dialogues, vous pouvez dire:
 - `qu'est ce que je peux dire ?`
-Sarah vous énumérera toutes les possibilités de choix que vous avez dans le dialogue courant.
+Sarah vous énumérera tous les choix que vous avez pour le dialogue courant.
 
 ### Règle de gestion des programmes
 Pour activer la gestion vocale:
