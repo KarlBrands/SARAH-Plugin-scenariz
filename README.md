@@ -136,7 +136,7 @@ Pour réaliser ce petit scénario à une seule action, il nous faut au minimum:
 - Une date d'exécution en heure, minutes et jours de la semaine pour l'action.
 - Le nom du plugin Sarah qui exécute l'action.
 - Les paramètres nécessaires à l'action dans le plugin Sarah:
-	- Coté client, les tags de la règle dans le xml du plugins.
+	- Coté client, les tags de la règle dans le xml du plugin.
 	- Ou coté Serveur, les items de l'objet data (si il n'y a pas de règle XML pour l'action).
 
 Traduisons ça par les tags de la règle de création de l'action du scénario dans le `scenariz.xml`.
@@ -285,7 +285,7 @@ Pour avoir plusieurs actions dans un scénario, il y a une **question importante
 	- On ajoutera aussi un délais de temporisation par un tag `out.action.tempo` (en milli-secondes) pour exécuter l'action suivante.
 - Pour des actions qui ne sont pas à la même heure, les tags `out.action.order` et `out.action.tempo` ne sont pas obligatoires et sont mis par défaut à:
 	- `out.action.order`="1"
-	- `out.action.tempo`=1000
+	- `out.action.tempo`="1000"
 
 Revenons à notre 2ème action, nous allons ajouter quelque chose que beaucoup ont: `la météo`.	
 
@@ -355,7 +355,7 @@ Pour compléter ce petit scénario, nous allons y ajouter une 3ème action qui d
 
 ##### Mémo:
 Le plugin `Time` qui existe dans Sarah V4 n'existe pas dans la V3.
-Par conséquent le plugin scenariz vous propose une commande compatible V3,V4 qui retourne l'heure dans un callback tts.
+Par conséquent le plugin scenariz vous propose une commande `setTime` compatible V3,V4 qui retourne l'heure dans un callback tts.
 
 Nous pouvons donc créer une 3ème action en utilisant cette commande:
 - `out.action.plug`="scenariz"
@@ -535,7 +535,11 @@ Utilisé pour préciser le nom du client ou dans le cas d'un multi-room avec une
 L'action ne sera exécutée **QUE** pour les clients définis dans ce tag séparés par une virgule (,).
 - `out.action.clients`="CLIENT1,CLIENT2"
 	- Valeur par défaut: SARAH1
-	- Autre valeur possible:
+	- Autres valeurs possibles:
+		- "currentRoom":
+			- Dans certain cas, on aimerait que Sarah exécute le scénario là où on se trouve. 
+			- La pièce courante doit être mise dans un fichier `scenariz/scenarizConfig.json` par le retour d'un capteur de présence par exemple sous la forme:
+				- {currentRoom: 'Salon'}
 		- "ALL": tous les clients
 
 
@@ -561,11 +565,18 @@ Utile par exemple si l'action est créer depuis un autre plugin par un SARAH.cal
 	- Message de validation.
 
 ##### out.action.fifo
-Ce tag est utilisé pour une action de scénario destinée à n'être exécutée qu'une seule fois dans le cas de plusieurs clients définis dans le tag `out.action.clients` et une base de données scenariz partagée. L'action sera exécutée par le 1er client à la lancer puis elle sera supprimée de la base de données.
+Utilisé pour une action de scénario destinée à n'être exécutée qu'une seule fois dans le cas de plusieurs clients définis dans le tag `out.action.clients` et une base de données scenariz partagée. L'action sera exécutée par le 1er client à la lancer puis elle sera supprimée de la base de données.
 - `out.action.fifo`="true"
-	- exécutée par le 1er client à la lancer puis détruite.
+	- Exécutée par le 1er client à la lancer puis détruite.
 - `out.action.fifo`="false"
 	- Valeur par défaut.
+	
+##### out.action.speechStartOnRecord
+Utilisé dans le cas d'un scénario [Différé en précisant le jour et l'heure](#différé-en-précisant-le jour-et-lheure) pour que Sarah retourne la bonne prise en compte de l'heure et du jour.
+- `out.action.speechStartOnRecord`="true"
+	- Retourne le jour et l'heure du scénario.
+- `out.action.speechStartOnRecord`="false"
+	- Retourne la phrase normale.
 
 ## Lancer un scénario à exécution immédiate avec un différé
 Il existe 2 types de différé d'exécution:
