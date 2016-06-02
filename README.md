@@ -8,7 +8,7 @@ on top of:
 
 ## Introduction
 - Scenariz permet de créer des scénarios d'actions en utilisant les règles de plugins.
-	- Si une action peut être jouée par une règle XML coté client où directement depuis le plugin.js coté serveur, alors Scenariz peut utiliser cette action comme une action de scénario. 
+	- Si une action peut être jouée par une règle XML coté client où directement depuis le js coté serveur, alors Scenariz peut utiliser cette action comme une action de scénario. 
 - Aucune limite au nombre de scénarios et d'actions dans un scénario.
 - Gère le multi-room.
 	- Un scénario ou une action dans un scénario peut être défini(e) pour n'être exécuté(e) que pour le(s) client(s) associé(s). 
@@ -27,11 +27,12 @@ on top of:
 - Gestion et modification des scénarios par dialogue.
 	- Etat du scénario.
 		- Si il est actif ou inactif.
+		- Nombre d'actions dans le scénario.
 		- Heure et jour(s) de la semaine de son exécution.
 	- Activation/Désactivation d'un scénario.
 	- Modification de l'heure et minutes.
-		- par plage de 5mn ou 15mn
-		- par plage de 1h ou 3h
+		- par plage de 5mn ou 15mn.
+		- par plage de 1h ou 3h.
 	- Modification des jours d'exécution, soit:
 		- La semaine de travail.
 		- La semaine entière.
@@ -39,9 +40,9 @@ on top of:
 	- Suppression du scénario.
 
 ## Table des matières
-- [Compatibilité](#Compatibilité)	
+- [Compatibilité](#compatibilité)	
 - [Installation](#installation)		
-- [Créer un scénario](#Créer-un-scénario)	
+- [Créer un scénario](#créer-un-scénario)	
 	- [Créer une action](#créer-une-action)
 	- [Modifier une action](#modifier-une-action)
 	- [Exécuter le scénario](#exécuter-le-scénario)
@@ -50,38 +51,38 @@ on top of:
 	- [Optimiser le scénario](#optimiser-le-scénario)
 	- [Changer le type du scénario](#optimiser-le-type-du-scénario)
 	- [Tags spéciaux pour la création d'actions](#tags-spéciaux-pour-la-création-dactions)
--[Lancer un scénario à exécution immédiate avec un différé](#lancer-un scénario-à-exécution-immédiate-avec-un-différé)
+- [Lancer un scénario à exécution immédiate avec un différé](#lancer-un-scénario-à-exécution-immédiate-avec-un-différé)
 	- [Différé simple exprimé en minutes](#différé-simple-exprimé-en-minutes)
 	- [Différé en précisant le jour et l'heure](#différé-en-précisant-le-jour-et-lheure)
--[Gestion vocale des scénarios](#gestion-vocale-des-scénarios)	
--[Propriétés scenariz.prop](#propriétés-scenariz.prop)	
--[Le cron de l'exécution programmée](#le-cron-de-lexécution-programmée)
--[Problèmes connus](#problèmes-connus)
--[En plus...](#en-plus...)
--[Versions](#versions)
+- [Gestion vocale des scénarios](#gestion-vocale-des-scénarios)	
+- [Propriétés scenariz.prop](#propriétés-scenarizprop)	
+- [Le cron de l'exécution programmée](#le-cron-de-lexécution-programmée)
+- [Problèmes connus](#problèmes-connus)
+- [En plus...](#en-plus)
+- [Versions](#versions)
 	
 ## Compatibilité
 - Scenariz V 3.0 est compatible Sarah V3 et Sarah V4.
 
 ## Installation
-- Téléchargez et dézippez le fichier 'SARAH-scenariz-master.zip' dans le répertoire plugins de Sarah.
+- Téléchargez et dézippez le fichier `SARAH-scenariz-master.zip` dans le répertoire plugins de Sarah.
 	- Supprimez le dernier répertoire du chemin proposé pour ne pas avoir de doublon de répertoire.
-- Renommez le répertoire créé en 'scenariz'.
+- Renommez le répertoire créé en `scenariz`.
 - Aucun paramètrage à faire.
 
 
 ##### sarah.js
 Le plugin utilise la fonction askme de Sarah pour la gestion vocale des scénarios. Cette fonction a été corrigée et améliorée pour scenariz.
 - Localisation du fichier sarah.js d'origine de Sarah:
-	- Pour la V3: SARAH/script/manager
-	- Pour la V4: SARAH/server/app/server
-- Copiez le fichier sarah.js d'origine en sarah.ori
-- Copiez/collez le fichier SARAH/scenariz/install/'version'/sarah.js dans son répertoire de localisation.
+	- Pour la V3: `SARAH/script/manager`
+	- Pour la V4: `SARAH/server/app/server`
+- Copiez le fichier `sarah.js` d'origine en `sarah.ori`
+- Copiez/collez le fichier `SARAH/scenariz/install/'version'/sarah.js` dans son répertoire de localisation.
  
 ##### Important:
 Si vous utilisez la fonction askme dans d'autres plugins, vous devrez modifier tous les appels à la fonction `end()` de la fonction `askme()` de vos plugins par `end(true)`.
 
-Notez qu'il n'est pas nécessaire de faire cette action dans mes plugins qui ont déjà tous cette modification.
+**Notez** qu'il n'est pas nécessaire de faire cette action dans mes plugins qui ont déjà tous cette modification.
 
 **Existant:**
 ```javascript
@@ -124,9 +125,9 @@ Enfin, redémarrez Sarah.
 ## Créer un scénario
 - La création d'un scénario se fait par **règle(s)** dans le fichier `scenariz.xml`.
 - Chaque action d'un scénario est une règle à définir.
-- Après avoir créé une règle de scénario, vous devez la jouer pour l'ajouter dans la base de données de Scenariz. Cette action n'est à faire qu'une seule fois.
+- Après avoir créé une règle de scénario, vous devez la jouer pour l'ajouter dans la base de données de scenariz. Cette action n'est à faire qu'une seule fois.
 
-### Créer une action
+### Créer une action	
 Supposons un scénario dans lequel nous voudrions faire dire à Sarah une petite phrase.
 
 Pour réaliser ce petit scénario à une seule action, il nous faut au minimum:
@@ -138,7 +139,7 @@ Pour réaliser ce petit scénario à une seule action, il nous faut au minimum:
 	- Coté client, les tags de la règle dans le xml du plugins.
 	- Ou coté Serveur, les items de l'objet data (si il n'y a pas de règle XML pour l'action).
 
-Traduisons ça par les tags de la règle de création de l'action du scénario dans le scenariz.xml.
+Traduisons ça par les tags de la règle de création de l'action du scénario dans le `scenariz.xml`.
 - `out.action.program`="Démonstration"
 	- **Obligatoire**.
 	- Ce tag est le nom du scénario.
@@ -150,21 +151,23 @@ Traduisons ça par les tags de la règle de création de l'action du scénario d
 - `out.action.clients`="SARAH1"
 	- **Non obligatoire**, par défaut 'SARAH1'.
 	- Ce tag est le nom du client Sarah qui exécute le scénario.
-	- Comme je ne connais pas votre installation, je le défini sinon le scénario pourrait ne pas s'exécuter. Si votre client Sarah à un nom différent, ajoutez le nom de votre client à la place de SARAH1.
+	- Comme je ne connais pas votre installation, je le défini sinon le scénario pourrait ne pas s'exécuter. Si votre client Sarah à un nom différent, remplacez SARAH1 par le nom de votre client.
 - `out.action.start`="15:30-1111111"
 	- **Obligatoire**.
-	- Ce tag est la date d'exécution spécifiée en heure:minute et les jours de la semaine commencant le lundi (7 jours: 1 actif, 0 inactif) séparés par un tiret (-).
+	- Ce tag est la date d'exécution spécifiée en heure:minute et jours de la semaine commencant le lundi (7 jours: 1 actif, 0 inactif) séparés par un tiret (-).
 	- Içi, défini à 15h30mn pour tous les jours de la semaine.
 - `out.action.plug`="scenariz"
 	- **Obligatoire**.
 	- Ce tag est le nom du plugin qui exécute l'action du scénario.
+		- Ne vous laissez pas perturber, içi c'est `scenariz` parce que j'utilise une action dans ce plugin...
 - `out.action.key`="command=speech~text=c'est la phrase de début du scénario de démonstration."
 	- **Non obligatoire** si le plugin n'a pas de paramètre(s) d'exécution.
 	- Ce tag contient les tags dont le plugin a besoin pour s'exécuter.
-	- Format: `Tag=Valeur` séparés par un tilde (~)
+	- Format: `Tag=Valeur` séparés par un tilde (~) sans le `out.action` qui apparait dans les xml
+		- Par exemple, un `out.action.command="speech"` dans un xml devient `"command=speech"`
 	- Vous pouvez utiliser ce tag pour faire dire une phrase à Sarah dans vos scénarios.
 		
-Il faut ensuite écrire une règle à jouer `"Début de la démonstration"` en y incluant ces tags:
+Il faut ensuite écrire une règle à jouer `Début de la démonstration` en y incluant ces tags:
 ```xml
  <rule id="rulescenariz">
     <tag>out.action=new Object()</tag>
@@ -203,7 +206,7 @@ Pour modifier une action d'un scénario, modifiez les valeurs des tags associés
 ##### Important:
 Ne modifiez jamais le nom du scénario et le nom d'une action sinon vous allez créer un nouveau scénario ou une nouvelle action. Pour un nouveau scénario ce n'est pas grave mais une autre action dans le scénario va créer un conflict de fonctionnement.
 
-Après modification:
+**Après modification**:
 ```xml	
 <!-- Clé de création du scénario Démonstration --> -->
 <item>Début de la démonstration<tag>out.action.command="ScenarizCron";out.action.program="Démonstration";out.action.name="Phrase de début";out.action.clients="SARAH1";out.action.plug="scenariz";out.action.start="20:15-1111111";out.action.key="command=speech~text=Bonjour, je dois dire quelque chose au début du scénario."</tag></item>
@@ -226,7 +229,7 @@ Néanmoins, il faut savoir qu'un scénario peut être à exécution programmée 
 Non ? si,si... Il suffit juste de créer une règle dans le `scenariz.xml` qui exécute ce scénario.
 
 Il nous faut:
-- Une règle à jouer "fais nous une petite démo".
+- Une règle à jouer `fais nous une petite démo`.
 - Un tag `out.action.command`="ExecCron".
 	- **Obligatoire**.
 	- **LA** clé d'exécution d'un scénario.
@@ -234,7 +237,7 @@ Il nous faut:
 	- **Obligatoire**.
 	- Le nom du scénario à exécuter.
 	
-Ce qui donne dans le scenariz.xml:
+Ce qui donne dans le `scenariz.xml`:
 ```xml
  <rule id="rulescenariz">
     <tag>out.action=new Object()</tag>
@@ -264,7 +267,7 @@ Bonjour, je dois dire quelque chose au début du scénario.
 ### Créer une 2ème action
 Supposons maintenant que nous voulons ajouter à notre scénario une 2ème action.
 
-Pour avoir plusieurs actions dans un scénario, il y a une question importante à se poser:
+Pour avoir plusieurs actions dans un scénario, il y a une **question importante** à se poser:
 - Les actions 1 puis 2 puis 3... doivent-elles s'enchaîner en démarrant à la même heure ou ont-elles des heures/minutes différentes d'exécutions?
 
 ##### Prenons un exemple:
@@ -273,7 +276,7 @@ Pour avoir plusieurs actions dans un scénario, il y a une question importante �
 		- ordre 1: la phrase.
 		- ordre 2: la musique.
 	- Ensuite, 10mn après, une 3ème action dans le même scénario va allumer la télé pour que je vois les infos.
-		- Pour cette 3ème règle, on voit bien que l'heure d'exécution n'est pas identique aux 2 premières actions. Il n'y a pas donc pas d'ordre à gérer.
+		- Pour cette 3ème règle, on voit bien que l'heure d'exécution n'est pas identique aux 2 premières actions. Il n'y a donc pas d'ordre à gérer.
 		- L'ordre dans ce cas est juste l'heure d'exécution.
 		
 ##### En résumé:
@@ -308,7 +311,7 @@ Définition des clés :
 	- Le nom de cette 2ème action.
 - Toutes les autres clés sont identiques à la 1ère action.
 
-Sans oublier qu'il faut aussi modifier la 1ème action pour y ajouter:
+**Sans oublier** qu'il faut aussi modifier la 1ème action pour y ajouter:
 - `out.action.tempo`="5000"	
 	- Disons... 5 secondes pour vocaliser le texte de l'action 1 et ensuite déclencher l'action 2 météo.
 - `out.action.order`="1"	
@@ -364,7 +367,7 @@ Nous pouvons donc créer une 3ème action en utilisant cette commande:
 - `out.action.order`="3"
 	- Qui défini l'ordre d'exécution pour cette 3ème action.
 - `out.action.name`="l'heure courante"
-	- Ce tag est nom de cette 3ème action.
+	- Ce tag est le nom de cette 3ème action.
 - Toutes les autres clés sont identiques aux autres actions.
 
 Il faut aussi que je modifie la 2ème action pour y ajouter:
@@ -423,7 +426,7 @@ J'ai supprimé tous les programmes.
 ```
 
 ##### Mémo:
-Voir plus bas [Gestion vocale des scénarios](gestion-vocale-des-scénarios) pour la commande qui permet de supprimer un seul scénario. 
+Voir plus bas [Gestion vocale des scénarios](#gestion-vocale-des-scénarios) pour la commande qui permet de supprimer un seul scénario. 
 
 Nous pouvons maintenant refaire le scénario avec 2 règles comme ci-dessous:
 ```xml
@@ -463,16 +466,16 @@ Dans mon plugin `sonosPlayer.xml`, la règle est définie comme ci-dessous:
 
 - Mon plugin s'appelle `sonosPlayer`:
 	- `out.action.plug`="sonosPlayer"
-- Démmarage de l'action dans la règle, 10mn après 15:30 soit:
-	`out.action.start`="15:40-1111111"
+- Démarrage de l'action dans la règle, 10mn après 15:30 soit:
+	- `out.action.start`="15:40-1111111"
 - Nom de l'action dans le scénario:
-	`out.action.name`="La musique"	
+	- `out.action.name`="La musique"	
 - Pour le fun, une phrase de Sarah !
-	`out.action.ttsCron`="je met un peu de musique."	
+	- `out.action.ttsCron`="je met un peu de musique."	
 	
 Comme vu précédemment (eh oui! sinon relisez le passage...), pas d'ordre puisque cette règle n'est pas à la même heure que les 2 premières. Ni de temporisation pour la règle 2.
 	
-Détail de la règle de création de l'action 3 "La musique dans la démonstration" dans le scenariz.xml:
+Détail de la règle de création de l'action 3 `La musique dans la démonstration` dans le `scenariz.xml`:
 ```xml
  <rule id="rulescenariz">
     <tag>out.action=new Object()</tag>
@@ -529,7 +532,7 @@ Il existe quelques tags qu'il est possible d'ajouter à la règle de création d
 ##### out.action.clients
 Utilisé pour préciser le nom du client ou dans le cas d'un multi-room avec une base de données scenariz partagée.
 
-L'action ne sera exécutée QUE pour les clients définis dans ce tag séparés par une virgule (,).
+L'action ne sera exécutée **QUE** pour les clients définis dans ce tag séparés par une virgule (,).
 
 - `out.action.clients`="CLIENT1,CLIENT2"
 	- Valeur par défaut: SARAH1
@@ -539,7 +542,8 @@ L'action ne sera exécutée QUE pour les clients définis dans ce tag séparés 
 
 ##### out.action.autodestroy
 Supprime le scénario après avoir été joué.
-	- Utilisé par exemple pour une exécution [différé en précisant le jour et l'heure](#différé-en-précisant-le-jour-et-lheure) ou encore par le plugin tvSchedule pour enregistrer un programme TV et le rappeler.
+
+Utilisé par exemple pour une exécution [différé en précisant le jour et l'heure](#différé-en-précisant-le-jour-et-lheure) ou encore par un plugin. Comme le plugin `tvSchedule` pour enregistrer un programme TV et le rappeler.
 - `out.action.autodestroy`="true"
 	- Supprime le scénario après son exécution
 - `out.action.autodestroy`="false"
@@ -548,9 +552,9 @@ Supprime le scénario après avoir été joué.
 
 
 ##### out.action.mute
-Permet de ne pas avoir le message de validation de Sarah "action enregisrée" lorsqu'une action est créée.
+Permet de ne pas avoir le message de validation de Sarah `action enregistrée` lorsqu'une action est créée.
 
-Utile par exemple si l'action est créer depuis un autre plugin par un SARAH.call en mode silence.
+Utile par exemple si l'action est créer depuis un autre plugin par un SARAH.call en mode silence:
 - `out.action.mute`="true"
 	- Aucun message de validation.
 - `out.action.mute`="false"
@@ -558,8 +562,7 @@ Utile par exemple si l'action est créer depuis un autre plugin par un SARAH.cal
 	- Message de validation.
 
 ##### out.action.fifo
-Ce tag est utilisé pour une action de scénario destinée à n'être exécutée qu'une seule fois dans le cas de plusieurs clients définis dans le tag out.action.clients et une base de données scenariz partagée. L'action sera exécutée par le 1er client à la lancer puis elle sera supprimée de la base de données.
-
+Ce tag est utilisé pour une action de scénario destinée à n'être exécutée qu'une seule fois dans le cas de plusieurs clients définis dans le tag `out.action.clients` et une base de données scenariz partagée. L'action sera exécutée par le 1er client à la lancer puis elle sera supprimée de la base de données:
 - `out.action.fifo`="true"
 	- exécutée par le 1er client à la lancer puis détruite.
 - `out.action.fifo`="false"
@@ -567,9 +570,9 @@ Ce tag est utilisé pour une action de scénario destinée à n'être exécutée
 
 ## Lancer un scénario à exécution immédiate avec un différé
 Il existe 2 types de différé d'exécution:
-	- Un type simple avec un différé exprimé en minutes.
-	- Un type plus élaboré en précisant:
-		- Aujourd'hui, Demain, Après-demain ou un jour de la semaine et l'heure précise d'exécution.
+- Un type simple avec un différé exprimé en minutes.
+- Un type plus élaboré en précisant:
+	- Aujourd'hui, Demain, Après-demain ou un jour de la semaine et l'heure précise d'exécution.
 		
 
 ### Différé simple exprimé en minutes
@@ -608,8 +611,8 @@ Ce type de différé est entièrement commenté dans le `scenariz.xml` afin de r
 **Pour l'utiliser**:
 - Décommentez les 4 rules de gestion des jours et de l'heure:
 	- `StartTimer`, `WeekDay`, `Hour`, `Minute` en haut du fichier.
-	- Modifiez à votre convenance les règles dans le rule 'StartTimer'.
-- Décommentez la règle d'exécution dans le rule 'rulescenariz'
+	- Modifiez à votre convenance les règles dans le rule `StartTimer`.
+- Décommentez la règle d'exécution dans le rule `rulescenariz`
 - Dans la règle d'exécution, modifiez les tags suivant:
 	- `out.action.program` avec le nom de votre scénario.
 	- `out.action.name` avec le nom de l'action dans le scénario.
@@ -624,6 +627,7 @@ La gestion des scénarios est vocale par dialogue avec Sarah.
 Elle permet de:
 - Donner l'état d'un scénario.
 	- Si il est actif ou inactif.
+	- Le nombre d'actions dans le scénario.
 	- l'heure et le(s) jour(s) de la semaine de son exécution.
 - Activer/Désactiver un scénario.
 	- Activé: devient un scénario à exécution programmée.
@@ -639,24 +643,24 @@ Elle permet de:
 
 ##### Mémo:
 Il est très important de se rappeler que dans pratiquement tous les dialogues, vous pouvez dire:
-	- `qu'est ce que je peux dire ?`
+- `qu'est ce que je peux dire ?`
 Sarah vous énumérera toutes les possibilités de choix que vous avez dans le dialogue courant.
 
 ### Règle de gestion des programmes
 Pour activer la gestion vocale:
-- SARAH gestion des programmes
+- `SARAH gestion des programmes`
 	- Si un seul programme est trouvé, Sarah vous demande directement si vous voulez le modifier.
 	- Si plusieurs programmes sont trouvés, Sarah vous donne le nombre puis ennumère les programmes et attend un choix.
 
 Pour apprendre comment gérer les scénarios vocalement, écoutez les enregistrements placés dans le répertoire scenariz/démo:
-- Lancer la gestion vocale: demarrage.mp3
-- Etat d'un scénario: etat.mp3
-- Activer/Désactiver un scénario: activate-desactivate.mp3
-- Modifier l'heure: modification_heure.mp3
-- Modifier les minutes: modification_minute.mp3
-- Modifier les jours: modification_jour.mp3
-- Suppression d'un scénario: supression.mp3
-- Un enchainement de toutes les possibilités: multi_actions.mp3
+- Lancer la gestion vocale: `demarrage.mp3`
+- Etat d'un scénario: `etat.mp3`
+- Activer/Désactiver un scénario: `activate-desactivate.mp3`
+- Modifier l'heure: `modification_heure.mp3`
+- Modifier les minutes: `modification_minute.mp3`
+- Modifier les jours: `modification_jour.mp3`
+- Suppression d'un scénario: `supression.mp3`
+- Un enchainement de toutes les possibilités: `multi_actions.mp3`
 
 
 ## Propriétés scenariz.prop
@@ -669,7 +673,7 @@ Pour apprendre comment gérer les scénarios vocalement, écoutez les enregistre
 	
 ##### multiRoom
 - `multiRoom`: true
-	- Cherche le nom du client Sarah dans son custom.ini pour matcher le nom du client avec l'action à exécuter. 
+	- Cherche le nom du client Sarah dans son `custom.ini` pour matcher le nom du client avec l'action à exécuter. 
 - `multiRoom`: false
 	- Utilise la valeur de la propriété 'defaultRoom' pour matcher le nom du client avec l'action à exécuter.
 
@@ -685,7 +689,7 @@ Dans ce fichier, 2 tableaux `messages` et `error_messages` regroupent les messag
 - A noter que certains messages sont multi-réponses aléatoires, visible par des pipes (|) dans les valeurs.
 	- Exemple: `De rien|je t'en pris|Avec plaisir`
 
-Pour les grammaires des askme, il est nécessaire de les modifier directement dans le fichier scenariz/lib/db/scenarizdb.js
+Pour les grammaires des askme, il est nécessaire de les modifier directement dans le fichier `scenariz/lib/db/scenarizdb.js`
 - Ouvrez ce fichier dans un éditeur de texte.
 - Cherchez toutes les chaines `askme`, retrouvez les grammaires et modifiez-les à votre convenance.
 
@@ -698,8 +702,8 @@ Si une heure est définie en non multiple de la valeur définie, scenariz active
 Par exemple, pour une recherche toutes les 5mn, supposons que l'heure d'exécution d'un scénario est 20h43, le scénario s'exécutera alors à 20h40.
 
 Pour modifier le délais d'exécution:
-- Modifiez la valeur 'time' de la section 'cron' dans le scenariz.prop
-- Modifiez la valeur de la variable cron dans la fonction istime() du fichier scenariz/lib/db/scenarizdb.js (~ à la ligne 1541)
+- Modifiez la valeur `time` de la section `cron` dans le `scenariz.prop`
+- Modifiez la valeur de la variable cron dans la fonction istime() du fichier `scenariz/lib/db/scenarizdb.js` (~ à la ligne 1541)
 	- pour un cron de 2 mn -> cron = 1
 	- Pour un cron de 5 mn -> cron = 4
 	- pour un cron de 10 mn -> cron = 9
@@ -710,15 +714,15 @@ Ne modifiez cette valeur que pour des cas de figures très spécifiques. Une val
 
 
 ## Problèmes connus
-- Un petit problème ne permet pas de créer 2 actions du plugin `scenariz` l'une après l'autre.
-	- par exemple, une action `speech` puis une action `setTime`.
-	- définissez toujours une action d'un autre plugin entre 2 actions `scenariz`.
+- Un petit problème ne permet pas de créer 2 actions du plugin `scenariz` l'une après l'autre dans un scénario.
+	- Par exemple, une action `speech` puis une action `setTime`.
+	- Définissez toujours une action d'un autre plugin entre 2 actions `scenariz`.
 - Pour Sarah V4:
 	- La fonction askme de la V3 fonctionne mieux que la V4 du fait du `listen false` automatique ajouté dans la V4 pendant un dialogue:
 		- Un bug dû à cet ajout survient dans les askme récursifs (nombreux dans ce plugin) avec des SARAH.speak en plus dans les réponses, il semble que le `listen false` se perd et ne traite pas convenablement ces cas de figures complexes.
 	- Le traitement de la grammaire:
-		- Comme vous le savez, la V4 matche les mots d'une règle plutôt que de la règle complète (comme la V3). Ce qui est sûrement un plus si on utilise un plugin basic mais dû au problème de `listen false` non fonctionnel dans ces askme complexes, Sarah matche les règles des grammaires principales avec les traitements des askme et si elle trouve un seul mot correspondant dans une grammaire, Sarah l'exécute en parallèle du askme.
-		- Par exemple, une question `modification du programme xxx ?` de askme contenait le mot `programme`, le plugin `scenariz` a une règle `gestion des programmes`, cela a suffi à Sarah pour lancer une 2ème fois la commande `gestion des programmes`. Très embêtant...
+		- Comme vous le savez, la V4 matche les mots d'une règle plutôt que la règle complète (comme la V3). Ce qui est sûrement un plus si on utilise un plugin basic mais dû au problème de `listen false` non fonctionnel dans ces askme complexes, Sarah matche les règles des grammaires principales avec les traitements des askme et si elle trouve un seul mot correspondant dans une grammaire, Sarah l'exécute en parallèle du askme.
+			- Par exemple, une question `modification du programme xxx ?` d'un askme contenait le mot `programme`, le plugin `scenariz` a une règle `gestion des programmes`, cela a suffi à Sarah pour lancer une 2ème fois la commande `gestion des programmes`. Très embêtant...
 		- J'ai corrigé évidemment certaines réponses de Sarah dans les dialogues pour ne plus avoir ce type de soucis en V4 mais je ne peux pas deviner ce que vous avez chez vous donc si vous constatez ce problème d'exécution de règles en parallèle, vérifiez qu'un mot unique ne soit pas matché avec une de vos règles et essayez de modifier les réponses de Sarah dans [le fichier lang](#modification-des-messages).
 		- A défaut, installez la V3 et testez scenariz dans cette version.
 - Le niveau de confidence en V3 et V4
