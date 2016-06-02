@@ -283,7 +283,8 @@ Pour avoir plusieurs actions dans un scénario, il y a une **question importante
 - Pour des actions qui s'enchaînent à la même heure/minute:
 	- On ajoutera un tag `out.action.order` dans chaque action avec l'ordre d'exécution.
 - Pour des actions qui ne sont pas à la même heure, le tag `out.action.order` n'est pas obligatoire. 
-	- il est ajouté automatiqument avec la valeur par défaut `out.action.order`="1"
+- La valeur par défaut de `out.action.order` si le tag n'est pas ajouté = "1".
+	
 Revenons à notre 2ème action, nous allons ajouter quelque chose que beaucoup ont: `la météo`.	
 
 J'utilise le plugin `météo 1` mais je suis persuadé qu'avec toutes ces explications, vous êtes capable de récupérer et d'ajouter le plugin `météo 2` et ses clés si vous l'avez.
@@ -464,7 +465,7 @@ Dans mon plugin `sonosPlayer.xml`, la règle est définie comme ci-dessous:
 - Pour le fun, une phrase de Sarah !
 	- `out.action.ttsCron`="je met un peu de musique."	
 	
-Comme vu précédemment (eh oui! sinon relisez le passage...), pas d'ordre puisque cette règle n'est pas à la même heure que les 2 premières. Ni de temporisation pour la règle 2.
+Comme vu précédemment (eh oui! sinon relisez le passage...), pas d'ordre puisque cette règle n'est pas à la même heure que les 2 premières.
 	
 Détail de la règle de création de l'action 3 `La musique dans la démonstration` dans le `scenariz.xml`:
 ```xml
@@ -545,7 +546,10 @@ L'action ne sera exécutée **QUE** pour les clients définis dans ce tag sépar
 ##### out.action.autodestroy
 Supprime le scénario après avoir été joué.
 
-Utilisé par exemple pour une exécution [différé en précisant le jour et l'heure](#différé-en-précisant-le-jour-et-lheure) ou encore par un plugin. Comme le plugin `tvSchedule` pour enregistrer un programme TV et le rappeler.
+Utilisé par exemple pour une exécution [différé en précisant le jour et l'heure](#différé-en-précisant-le-jour-et-lheure) ou encore par un plugin. 
+
+Par exemple, le plugin `tvSchedule` crée un scénario pour rappeler un programme TV.
+
 - `out.action.autodestroy`="true"
 	- Supprime le scénario après son exécution
 - `out.action.autodestroy`="false"
