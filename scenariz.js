@@ -8,7 +8,7 @@
 				  speech action, to have the possibility to vocalize a simple tts in a scenario.
 	
 	Date: May-28-2015
-	Version 3.0: New version for SARAH V3 and V4
+	Version 3.0: New compatible version for SARAH V3 and V4
 */
 
 

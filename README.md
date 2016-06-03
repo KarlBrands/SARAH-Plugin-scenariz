@@ -32,7 +32,7 @@ on top of:
 	- Activation/Désactivation d'un scénario.
 	- Modification de l'heure et minutes.
 		- par plage de 5mn ou 15mn.
-		- par plage de 1h ou 3h.
+		- par plage de 1h ou 5h.
 	- Modification des jours d'exécution, soit:
 		- La semaine de travail.
 		- La semaine entière.
@@ -524,9 +524,9 @@ Il existe quelques tags qu'il est possible d'ajouter à la règle de création d
 ##### out.action.tempo
 Utilisé pour spécifier un délais (en milli-secondes) pour exécuter l'action suivante.
 
-Par exemple le tag `out.action.clients`="10000" défini sur une action d'un scénario créée 10 secondes de temporisation avant d'exécuter la règle suivante.
+Par exemple le tag `out.action.tempo`="10000" défini sur une action d'un scénario créée 10 secondes de temporisation avant d'exécuter la règle suivante.
 
-- `out.action.clients`="valeur"
+- `out.action.tempo`="valeur"
 	- Valeur par défaut: "1000"
 
 ##### out.action.clients
@@ -645,9 +645,10 @@ Elle permet de:
 - Activer/Désactiver un scénario.
 	- Activé: devient un scénario à exécution programmée.
 	- Désactivé: devient un scénario à exécution immédiate.
+		- Un scénario à exécution programmée n'est plus exécuté.
 - Modifier l'heure et minutes d'exécution.
 	- par plage de 5mn ou 15mn
-	- par plage de 1h ou 3h
+	- par plage de 1h ou 5h
 - Modifier les jours d'exécution, soit:
 	- La semaine de travail.
 	- La semaine entière.
@@ -668,12 +669,12 @@ Pour activer la gestion vocale:
 Pour apprendre comment gérer les scénarios vocalement, écoutez les enregistrements placés dans le répertoire scenariz/démo:
 - Lancer la gestion vocale: `demarrage.mp3`
 - Etat d'un scénario: `etat.mp3`
-- Activer/Désactiver un scénario: `activate-desactivate.mp3`
+- Activer/Désactiver un scénario: `active-desactive.mp3`
 - Modifier l'heure: `modification_heure.mp3`
 - Modifier les minutes: `modification_minute.mp3`
 - Modifier les jours: `modification_jour.mp3`
-- Suppression d'un scénario: `supression.mp3`
 - Un enchainement de toutes les possibilités: `multi_actions.mp3`
+- Suppression d'un scénario: `supression.mp3`
 
 
 ## Propriétés scenariz.prop
@@ -729,15 +730,17 @@ Ne modifiez cette valeur que pour des cas de figures très spécifiques. Une val
 ## Problèmes connus
 - Pour Sarah V4:
 	- La fonction askme de la V3 fonctionne mieux que la V4 du fait du `listen false` automatique ajouté dans la V4 pendant un dialogue:
-		- Un bug dû à cet ajout survient dans les askme récursifs (nombreux dans ce plugin) avec des SARAH.speak en plus dans les réponses, il semble que le `listen false` se perd et ne traite pas convenablement ces cas de figures complexes.
+		- Un bug dû à cet ajout survient dans les askme récursifs (nombreux dans ce plugin) avec des SARAH.speak en plus dans les réponses, il semble que le `listen false` se perd complétement et ne traite pas convenablement ces cas de figures complexes qui n'ont jamais été testé.
 	- Le traitement de la grammaire:
 		- Comme vous le savez, la V4 matche les mots d'une règle plutôt que la règle complète (comme la V3). Ce qui est sûrement un plus si on utilise un plugin basic mais dû au problème de `listen false` non fonctionnel dans ces askme complexes, Sarah matche les règles des grammaires principales avec les traitements des askme et si elle trouve un seul mot correspondant dans une grammaire, Sarah l'exécute en parallèle du askme.
 			- Par exemple, une question `modification du programme xxx ?` d'un askme contenait le mot `programme`, le plugin `scenariz` a une règle `gestion des programmes`, cela a suffi à Sarah pour lancer une 2ème fois la commande `gestion des programmes`. Très embêtant...
 		- J'ai corrigé évidemment certaines réponses de Sarah dans les dialogues pour ne plus avoir ce type de soucis en V4 mais je ne peux pas deviner ce que vous avez chez vous donc si vous constatez ce problème d'exécution de règles en parallèle, vérifiez qu'un mot unique ne soit pas matché avec une de vos règles et essayez de modifier les réponses de Sarah dans [le fichier lang](#modification-des-messages).
 		- A défaut, installez la V3 et testez scenariz dans cette version.
-- Le niveau de confidence en V3 et V4
+- Le niveau de confidence en V3 et V4:
 	- Si les erreurs de compréhensions sont trop importantes, que le dialogue est intérrompu ou qu'un choix est compris par Sarah alors que vous n'avez rien dit, pensez peut-être à augmenter le niveau de confidence.
 	- Pensez aussi à réduire le son des périphériques pendant un dialogue.
+- Kinect:
+	- Avec une Kinect, il peut arriver que certains dialogues des askme ne soient pas prononcés par Sarah. A mon avis, c'est dû aux librairies de la Kinect qui ne sont pas forcément bien développées, sûrement lié à la libération de la mémoire. Avec un micro normal, je n'ai jamais rencontré le problème et ça fonctionne correctement.
 
 Globalement, 9 fois sur 10, le dialogue fonctionne correctement mais si un problème survient (erreurs de compréhension, dialogue intérrompu, choix sélectionné sans avoir parlé), dans tous les cas ne desespérez pas, reprenez simplement le dialogue ou la commande normalement et persevérez. Ca arrive et cela suffit généralement à régler le 1 sur 10 qui reste... :-)
 
@@ -765,6 +768,8 @@ Uniquement pour Sarah V3.
 ## Versions
 Version 3.0 (01/06/2016)
 - Compatibilité Sarah V3 et Sarah V4
+	- Petits changements et stabilisation du code pour la V4
+	- Librairie winston ajoutée
 
 Version 2.7 (13/12/2015)
 - Correction du bug à l'exécution d'un scénario immédiat avec une seule action en différé. Testé avec un différé d'une minute.
