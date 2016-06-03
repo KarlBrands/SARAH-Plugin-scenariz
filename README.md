@@ -524,7 +524,7 @@ Il existe quelques tags qu'il est possible d'ajouter à la règle de création d
 ##### out.action.tempo
 Utilisé pour spécifier un délais (en milli-secondes) pour exécuter l'action suivante.
 
-Par exemple le tag `out.action.tempo`="10000" défini sur une action d'un scénario créée 10 secondes de temporisation avant d'exécuter la règle suivante.
+Par exemple le tag `out.action.tempo`="10000" défini sur une action d'un scénario crée 10 secondes de temporisation avant d'exécuter la règle suivante.
 
 - `out.action.tempo`="valeur"
 	- Valeur par défaut: "1000"
@@ -730,7 +730,7 @@ Ne modifiez cette valeur que pour des cas de figures très spécifiques. Une val
 ## Problèmes connus
 - Pour Sarah V4:
 	- La fonction askme de la V3 fonctionne mieux que la V4 du fait du `listen false` automatique ajouté dans la V4 pendant un dialogue:
-		- Un bug dû à cet ajout survient dans les askme récursifs (nombreux dans ce plugin) avec des SARAH.speak en plus dans les réponses, il semble que le `listen false` se perd complétement et ne traite pas convenablement ces cas de figures complexes qui n'ont jamais été testé.
+		- Un bug dû à cet ajout survient dans les askme récursifs (nombreux dans ce plugin) avec des SARAH.speak en plus dans les réponses, il semble que le `listen false` se perd complétement et ne traite pas convenablement ces cas de figures complexes.
 	- Le traitement de la grammaire:
 		- Comme vous le savez, la V4 matche les mots d'une règle plutôt que la règle complète (comme la V3). Ce qui est sûrement un plus si on utilise un plugin basic mais dû au problème de `listen false` non fonctionnel dans ces askme complexes, Sarah matche les règles des grammaires principales avec les traitements des askme et si elle trouve un seul mot correspondant dans une grammaire, Sarah l'exécute en parallèle du askme.
 			- Par exemple, une question `modification du programme xxx ?` d'un askme contenait le mot `programme`, le plugin `scenariz` a une règle `gestion des programmes`, cela a suffi à Sarah pour lancer une 2ème fois la commande `gestion des programmes`. Très embêtant...
