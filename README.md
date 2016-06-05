@@ -731,7 +731,7 @@ Ne modifiez cette valeur que pour des cas de figures très spécifiques. Une val
 - Pour Sarah V4:
 	- La fonction askme de la V3 fonctionne mieux que la V4.
 		- Cela vient sans doute de la gestion de la grammaire qui est différente. Apparemment, les askme récursifs (nombreux dans ce plugin) avec des SARAH.speak en plus dans les réponses ne semblent pas trop bien gérés dans cette version.
-		- Si vous constatez des problèmes d'exécutions de règles en parallèle, vérifiez qu'un mot unique ne soit pas matché avec une de vos règles et essayez de modifier les réponses de Sarah dans [le fichier lang](#modification-des-messages).
+		- Si vous constatez des problèmes de règles qui se déclenchent toutes seules avec des réponses de askme, vérifiez qu'un mot dans un askme ne soit pas matché avec un des mots de vos règles et essayez de modifier les réponses de Sarah dans [le fichier lang](#modification-des-messages) ou dans vos règles.
 		- A défaut, installez la V3 et testez scenariz dans cette version.
 - Le niveau de confidence en V3 et V4:
 	- Si les erreurs de compréhensions sont trop importantes, que le dialogue est intérrompu ou qu'un choix est compris par Sarah alors que vous n'avez rien dit, pensez peut-être à augmenter le niveau de confidence.
