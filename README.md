@@ -729,12 +729,9 @@ Ne modifiez cette valeur que pour des cas de figures très spécifiques. Une val
 
 ## Problèmes connus
 - Pour Sarah V4:
-	- La fonction askme de la V3 fonctionne mieux que la V4 du fait du `listen false` automatique ajouté dans la V4 pendant un dialogue:
-		- Un bug dû à cet ajout survient dans les askme récursifs (nombreux dans ce plugin) avec des SARAH.speak en plus dans les réponses, il semble que le `listen false` se perd complétement et ne traite pas convenablement ces cas de figures complexes.
-	- Le traitement de la grammaire:
-		- Comme vous le savez, la V4 matche les mots d'une règle plutôt que la règle complète (comme la V3). Ce qui est sûrement un plus si on utilise un plugin basic mais dû au problème de `listen false` non fonctionnel dans ces askme complexes, Sarah matche les règles des grammaires principales avec les traitements des askme et si elle trouve un seul mot correspondant dans une grammaire, Sarah l'exécute en parallèle du askme.
-			- Par exemple, une question `modification du programme xxx ?` d'un askme contenait le mot `programme`, le plugin `scenariz` a une règle `gestion des programmes`, cela a suffi à Sarah pour lancer une 2ème fois la commande `gestion des programmes`. Très embêtant...
-		- J'ai corrigé évidemment certaines réponses de Sarah dans les dialogues pour ne plus avoir ce type de soucis en V4 mais je ne peux pas deviner ce que vous avez chez vous donc si vous constatez ce problème d'exécution de règles en parallèle, vérifiez qu'un mot unique ne soit pas matché avec une de vos règles et essayez de modifier les réponses de Sarah dans [le fichier lang](#modification-des-messages).
+	- La fonction askme de la V3 fonctionne mieux que la V4.
+		- Apparamment les askme récursifs (nombreux dans ce plugin) avec des SARAH.speak en plus dans les réponses ne semblent pas trop bien gérés dans cette version.
+		- Si vous constatez des problèmes d'exécutions de règles en parallèle, vérifiez qu'un mot unique ne soit pas matché avec une de vos règles et essayez de modifier les réponses de Sarah dans [le fichier lang](#modification-des-messages).
 		- A défaut, installez la V3 et testez scenariz dans cette version.
 - Le niveau de confidence en V3 et V4:
 	- Si les erreurs de compréhensions sont trop importantes, que le dialogue est intérrompu ou qu'un choix est compris par Sarah alors que vous n'avez rien dit, pensez peut-être à augmenter le niveau de confidence.
