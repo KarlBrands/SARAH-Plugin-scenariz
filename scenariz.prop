@@ -2,7 +2,7 @@
   "modules" : { 
     "scenariz" : {
       "description": "Scénarios Sarah",
-      "version": "3.0",
+      "version": "3.1",
 	  "multiRoom": true,
 	  "defaultRoom": "",
 	  "debug": true,

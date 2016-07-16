@@ -763,6 +763,10 @@ Uniquement pour Sarah V3.
 
    
 ## Versions
+Version 3.1 (04/07/2016)
+- Modification pour accepter des tts callback avec une phrase formatée avec des spérateurs de texte '@@' pour pouvoir dicter les phrases une par une.
+- Fichier lib/db/scenarizdb.js uniquement.
+
 Version 3.0 (01/06/2016)
 - Compatibilité Sarah V3 et Sarah V4
 	- Petits changements et stabilisation du code pour la V4
